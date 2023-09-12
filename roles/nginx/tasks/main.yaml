@@ -1,0 +1,16 @@
+---
+- name: Install Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+
+- name: Start Nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Ensure Nginx is running
+  ansible.builtin.wait_for:
+    port: 80
+    state: started
