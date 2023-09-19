@@ -1,4 +1,4 @@
-vlmalo-1 ansible_host=193.40.156.67 ansible_port=18322 ansible_user=ubuntu
+vlmalo-1 ansible_host=193.40.156.67 ansible_port=40422 ansible_user=ubuntu
 
 [web_servers]
 vlmalo-1

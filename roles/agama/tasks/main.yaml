@@ -1,0 +1,47 @@
+---
+
+- name: Ensure that agama exists
+  ansible.builtin.user:
+    name: agama
+    state: present
+
+- name: Ensure /opt/agama exists
+  become: yes
+  ansible.builtin.file:
+    path: /opt/agama
+    state: directory
+    owner: agama
+
+- name: Installing dependencies
+  become: yes
+  apt:
+    name: python3-flask-sqlalchemy
+    state: latest
+
+
+- name: Create /opt directory
+  become: yes
+  file:
+    path: /opt
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create /opt/agama directory
+  become: yes
+  file:
+    path: /opt/agama
+    state: directory
+    owner: agama
+    group: agama
+    mode: '0755'
+
+
+- name: Downloading AGAMA
+  become: yes
+  get_url:
+    url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
+    dest: /opt/agama/agama.py
+
+

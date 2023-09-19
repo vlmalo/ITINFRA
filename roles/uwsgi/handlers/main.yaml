@@ -1,0 +1,5 @@
+---
+- name: Restaer uwsgi
+  service:
+    name: uwsgi
+    state: restarted
