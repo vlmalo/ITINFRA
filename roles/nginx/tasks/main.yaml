@@ -14,3 +14,23 @@
   ansible.builtin.wait_for:
     port: 80
     state: started
+
+#- name: Replace Ngnix def config
+#  copy:
+#    src: files/default
+#    dest: /etc/ngnix/sites-enabled/default
+#    owner: root
+#    group: root
+#    mode: 0644
+
+#- name: Restart ngnix serv
+#  service:
+#    name: ngnix
+#    state: restarted
+
+#- name: start ngnix
+#  service:
+#    name: ngnix
+#    enabled: yes
+#    state: started
+#
