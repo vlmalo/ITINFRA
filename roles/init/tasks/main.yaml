@@ -1,5 +1,5 @@
 #- name: Ansible ping module
-#  ansible.builtin.ping:
+#  ansible.builtin.ping: 
 
 #- name: Add the user juri
 #  ansible.builtin.user:
