@@ -10,5 +10,4 @@
     become_user: root
     roles:
       - agama
-      - uwsgi
       - nginx
