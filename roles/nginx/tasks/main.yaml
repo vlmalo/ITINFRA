@@ -19,9 +19,6 @@
 #  copy:
 #    src: files/default
 #    dest: /etc/ngnix/sites-enabled/default
-#    owner: root
-#    group: root
-#    mode: 0644
 
 #- name: Restart ngnix serv
 #  service:

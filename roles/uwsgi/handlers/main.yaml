@@ -1,5 +1,5 @@
 ---
-- name: Restaer uwsgi
-  service:
+- name: Restart uWSGI
+  systemd:
     name: uwsgi
     state: restarted
