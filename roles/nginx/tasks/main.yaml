@@ -1,8 +1,16 @@
+
 ---
 - name: Install Nginx
   ansible.builtin.apt:
     name: nginx
     state: present
+
+- name: Replace Ngnix def config
+  copy:
+    src: default
+    dest: /etc/nginx/sites-enabled/default
+    mode: '0644'
+  notify: Restart nginx
 
 - name: Start Nginx service
   ansible.builtin.service:
@@ -14,20 +22,3 @@
   ansible.builtin.wait_for:
     port: 80
     state: started
-
-#- name: Replace Ngnix def config
-#  copy:
-#    src: files/default
-#    dest: /etc/ngnix/sites-enabled/default
-
-#- name: Restart ngnix serv
-#  service:
-#    name: ngnix
-#    state: restarted
-
-#- name: start ngnix
-#  service:
-#    name: ngnix
-#    enabled: yes
-#    state: started
-#
