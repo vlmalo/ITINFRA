@@ -21,7 +21,7 @@
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: Restart MySQL Service
 
-- name: MySQL databse
+- name: MySQL database
   community.mysql.mysql_db:
     name: "{{ mysql_database }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
