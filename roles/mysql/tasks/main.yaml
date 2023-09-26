@@ -1,0 +1,35 @@
+---
+- name: Install MySQL server
+  apt:
+    name: mysql-server
+    state: present
+
+- name: Insatll py3 mysql lib
+  apt:
+    name: python3-pymysql
+    state: present
+
+- name: Ensure that MySQL service is started
+  systemd:
+    name: mysql
+    state: started
+    enabled: true
+
+- name: Copy MySQL conf
+  copy:
+    src: templates/override.cnf
+    dest: /etc/mysql/mysql.conf.d/override.cnf
+  notify: Restart MySQL Service
+
+- name: MySQL databse
+  community.mysql.mysql_db:
+    name: "{{ mysql_database }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: MySQL user
+  community.mysql.mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    host: "%"
+    priv: "{{ mysql_database }}.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
