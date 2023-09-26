@@ -8,12 +8,12 @@
     update_cache: yes
 
 - name: Configure uWSGI for AGAMA
-  copy:
-    src: agama.ini
+  template:
+    src: agama.ini.j2
     dest: /etc/uwsgi/apps-enabled/agama.ini
-    owner: root
-    group: root
-    mode: '0644'
+    owner: agama
+    mode: '0600'
+    no_log: true
   notify: Restart uWSGI
 
 - name: Ensure that the uwsgi is running
