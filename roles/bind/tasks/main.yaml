@@ -1,0 +1,24 @@
+---
+- name: Install bind9
+  apt:
+    pkg:
+      - bind9
+
+- name: Ensure that bind9 is running
+  service:
+    name: bind9
+    state: started
+    enabled: yes
+
+- name: copy DNS conf
+  template:
+    dest: /etc/bind/named.conf.{{ item }}
+    src: named.conf.{{ item }}.j2
+  loop:
+    - options
+    - local
+
+- name: copy master zone databse
+  template:
+    dest: /var/lib/bind/db.talkmate.it
+    src: zone.j2
