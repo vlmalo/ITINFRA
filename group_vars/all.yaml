@@ -1,4 +1,7 @@
-mysql_host: 192.168.42.19
+vm1: vlmalo-1
+vm2: vlmalo-2
+
+mysql_host: vlmalo-2
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
@@ -8,3 +11,14 @@ mysql_password: !vault |
           33666438316532346636323563396562326338313963666433663662343337303832353166366166
           6537376463613361320a656534383238326464643338393063656135363930633734326666663136
           3130
+
+forwarders:
+  - 1.1.1.1;
+  - 8.8.8.8;
+  - 9.9.9.9;
+
+startup_name: talkmate.it
+
+lan_ip:
+  - 127.0.0.0/8;
+  - 192.168.42.0/24
