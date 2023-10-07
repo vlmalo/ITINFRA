@@ -17,8 +17,10 @@
   loop:
     - options
     - local
+  notify: Restart bind
 
-- name: copy master zone databse
+- name: copy master zone database
   template:
-    dest: /var/lib/bind/db.talkmate.it
-    src: zone.j2
+    dest: /var/lib/bind/db.{{ startup_name }}
+    src: db.talkmate.j2
+  notify: Reload rndc

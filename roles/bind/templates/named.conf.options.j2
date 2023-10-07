@@ -1,15 +1,18 @@
-acl abc { 192.168.42.0/24; 192.168.7.0/24; 127.0.0.0/8; };
+acl lan {
+    {% for n in lan_ip %}
+    {{ n }};
+    {% endfor %}
+};
 
 options {
   directory "var/lib/bind";
 
   forwarders {
-    1.1.1.1;
-    8.8.8.8;
-    9.9.9.9;
+      {% for n in forwarders %}
+      {{ n }};
+      {% endfor %}
   };
 
-
-  allow-query { abc };
+  allow-query { lan };
   dnssec-validation no;
 };

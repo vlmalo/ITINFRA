@@ -4,6 +4,7 @@
     name: mysql-server
     state: present
 
+
 - name: Insatll py3 mysql lib
   apt:
     name: python3-pymysql

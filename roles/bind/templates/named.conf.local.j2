@@ -1,4 +1,4 @@
-zone "talkmate.it" {
+zone "{{ startup_name }}" {
   type primary;
-  file "db.talkmate.it";
+  file "/var/lib/bind/db.{{ startup_name }}";
 };
