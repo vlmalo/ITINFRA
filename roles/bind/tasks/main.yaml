@@ -23,4 +23,10 @@
   template:
     dest: /var/lib/bind/db.{{ startup_name }}
     src: db.talkmate.j2
-  notify: Reload rndc
+  notify: Reload bind
+
+- name: Alter DNS server
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+  notify: Restart bind

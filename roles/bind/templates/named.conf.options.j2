@@ -5,7 +5,7 @@ acl lan {
 };
 
 options {
-  directory "var/lib/bind";
+  directory "/var/lib/bind";
 
   forwarders {
       {% for n in forwarders %}
@@ -13,6 +13,6 @@ options {
       {% endfor %}
   };
 
-  allow-query { lan };
+  allow-query { lan; };
   dnssec-validation no;
 };
