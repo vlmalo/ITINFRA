@@ -11,14 +11,19 @@
     - mysql
 
 - hosts: web_servers
-  become: yes
   become_user: root
   roles:
     - agama
     - uwsgi
     - nginx
 
-- name: DNS
-  hosts: dns_servers
-  roles:
-    - bind
+#- name: DNS
+#  hosts: dns_servers
+#  roles:
+#    - bind
+
+
+#- name: prometheus
+#  hosts: prometheus
+#  roles:
+#    - prometheus
