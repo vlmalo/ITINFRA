@@ -5,6 +5,16 @@
   roles:
     - init
 
+- name: DNS
+  hosts: dns_servers
+  roles:
+    - bind
+
+- name: prometheus
+  hosts: prometheus
+  roles:
+    - prometheus
+
 - name: Database server
   hosts: db_servers
   roles:
@@ -16,14 +26,3 @@
     - agama
     - uwsgi
     - nginx
-
-#- name: DNS
-#  hosts: dns_servers
-#  roles:
-#    - bind
-
-
-#- name: prometheus
-#  hosts: prometheus
-#  roles:
-#    - prometheus

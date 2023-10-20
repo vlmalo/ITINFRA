@@ -5,8 +5,12 @@ server {
         location / {
                 uwsgi_pass localhost:5000;
                 include uwsgi_params;
-        }
-#        location /prometheus{
-#        proxy_pass http://localhost:9090;
-#        }
+       }
+
+
+        location /prometheus {
+        proxy_pass http://vlmalo-2:9090;        
+	}
+
 }
+

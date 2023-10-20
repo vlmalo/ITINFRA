@@ -17,7 +17,7 @@
 
 - name: Copy MySQL conf
   copy:
-    src: templates/override.cnf
+    src: override.cnf
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: Restart MySQL Service
 
