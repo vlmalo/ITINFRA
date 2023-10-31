@@ -27,7 +27,7 @@
     - uwsgi
     - nginx
 
-#- name: Grafana
-#    hosts: grafana
-#    roles:
-#      - grafana
+- name: Grafana
+  hosts: grafana
+  roles:
+    - grafana

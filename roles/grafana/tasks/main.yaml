@@ -6,15 +6,25 @@
 
 - name: add grafana apt repository
   apt_repository:
-    repo: deb https://packages.grafana.com/oss/deb stable main
+    repo: deb https://apt.grafana.com stable main
     state: present
+
+- name: update cache
+  apt:
+    update_cache: yes
 
 - name: Install Grafana
   apt:
     name: grafana
     state: present
 
+- name: Copy grafana.ini file
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+  notify: Restart grafana
+
 - name: Start Grafana
-  ansible.builtin.service:
+  systemd:
     name: grafana-server
     state: started
