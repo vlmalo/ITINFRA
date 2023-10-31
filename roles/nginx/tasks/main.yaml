@@ -21,3 +21,12 @@
   ansible.builtin.wait_for:
     port: 80
     state: started
+
+- name: Install nginx exporter
+  apt:
+    name: prometheus-nginx-exporter
+
+- name: Start nginx exporter
+  service:
+    name: prometheus-nginx-exporter
+    state: started

@@ -30,3 +30,13 @@
     src: resolv.conf.j2
     dest: /etc/resolv.conf
   notify: Restart bind
+
+- name: install bind9 exporter
+  apt:
+    name: prometheus-bind-exporter
+    state: present
+
+- name: Start bind9 exporter
+  service:
+    name: prometheus-bind-exporter
+    state: started

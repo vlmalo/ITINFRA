@@ -2,3 +2,9 @@
   systemd:
     name: nginx
     state: restarted
+
+- name: Restart prometheus-nginx-exporter
+  service:
+    name: prometheus-nginx-exporter
+    state: restarted
+  listen: Restart nginx

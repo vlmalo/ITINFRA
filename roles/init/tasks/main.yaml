@@ -22,10 +22,14 @@
 #    path: /home/roman/.ssh/.authorized_keys
 
 - name: Update APT cache
-  ansible.builtin.apt:
+  apt:
     cache_valid_time: 86400
 
 - name: download node-exporter
   apt:
     name: prometheus-node-exporter
     state: present
+
+- name: Update CA certificates
+  apt:
+    name: ca-certificates=20230311ubuntu0.20.04.1
