@@ -24,7 +24,31 @@
     dest: /etc/grafana/grafana.ini
   notify: Restart grafana
 
+- name: Add datasource file
+  template:
+    src: templates/main_datasource.yaml.j2
+    dest: /etc/grafana/provisioning/datasources
+  notify: Restart grafana
+
+- name: add dashboard file conf
+  template:
+    src: templates/main_dashboard.yaml.j2
+    dest: /etc/grafana/provisioning/dashboards
+  notify: Restart grafana
+
+- name: create grafana dash dir
+  file:
+    path: /var/lib/grafana/dashboards
+    state: directory
+
+- name: copy dashboard json
+  copy:
+    src: files/main.json
+    dest: /var/lib/grafana/dashboards
+  notify: Restart grafana
+
 - name: Start Grafana
   systemd:
     name: grafana-server
     state: started
+

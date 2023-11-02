@@ -1,4 +1,5 @@
 ---
+
 - name: Copy .my.cnf template to conf path
   template:
     src: .my.cnf.j2
