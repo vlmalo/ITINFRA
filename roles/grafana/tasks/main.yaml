@@ -27,13 +27,13 @@
 - name: Add datasource file
   template:
     src: templates/main_datasource.yaml.j2
-    dest: /etc/grafana/provisioning/datasources
+    dest: /etc/grafana/provisioning/datasources/sample.yaml
   notify: Restart grafana
 
 - name: add dashboard file conf
   template:
     src: templates/main_dashboard.yaml.j2
-    dest: /etc/grafana/provisioning/dashboards
+    dest: /etc/grafana/provisioning/dashboards/sample.yaml
   notify: Restart grafana
 
 - name: create grafana dash dir
@@ -43,8 +43,8 @@
 
 - name: copy dashboard json
   copy:
-    src: files/main.json
-    dest: /var/lib/grafana/dashboards
+    src: main.json
+    dest: /var/lib/grafana/dashboards/main.json
   notify: Restart grafana
 
 - name: Start Grafana

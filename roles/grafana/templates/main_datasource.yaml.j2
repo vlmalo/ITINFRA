@@ -1,5 +1,9 @@
 # Configuration file version
 apiVersion: 1
+
+
+deleteDatasources:
+  - name: Prometheus
 # List of data sources to insert/update depending on what's
 # available in the database.
 datasources:
@@ -8,6 +12,7 @@ datasources:
   - name: Prometheus
     # <string, required> Sets the data source type.
     type: prometheus
+    uid: e758c7e9-0e62-4a76-b1eb-93a6f9237888
     # <string, required> Sets the access mode, either
     # proxy or direct (Server or Browser in the UI).
     # Some data sources are incompatible with any setting
@@ -18,9 +23,6 @@ datasources:
     # <string> Sets the data source's URL, including the
     # port.
     url: http://vlmalo-2:9090/prometheus
-    password:
-    user:
-    database:
-    isDefault: true
+    #isDefault: true
     version: 1
-    editable: true
+    editable: false
