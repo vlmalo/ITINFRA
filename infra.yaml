@@ -31,4 +31,12 @@
   hosts: grafana
   roles:
     - grafana
-  tags: gra
+  tags: g
+
+- name: Influxdb
+  hosts: influxdb
+  roles:
+    - influxdb
+    - influxdb_exporter
+    - pinger
+  tags: i

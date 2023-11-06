@@ -33,3 +33,23 @@
 - name: Update CA certificates
   apt:
     name: ca-certificates=20230311ubuntu0.20.04.1
+
+- name: Install Rsyslog
+  apt:
+    name: rsyslog
+    state: latest
+
+
+- name: conf rsyslog
+  template:
+    src: 51-telegraf.conf
+    dest: /etc/rsyslog.d/51-telegraf.conf
+    mode: '0777'
+  notify: Restart Rsyslog
+
+
+- name: Start rsyslog
+  service:
+    name: rsyslog
+    state: started
+    enabled: yes

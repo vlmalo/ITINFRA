@@ -1,0 +1,8 @@
+apiVersion: 1
+
+datasources:
+ - name: Influxdb - latency
+   type: influxdb
+   url: http://{{ inventory_hostname }}:8086
+   isDefault: False
+   database: latency

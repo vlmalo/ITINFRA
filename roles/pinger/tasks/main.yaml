@@ -1,0 +1,41 @@
+---
+- name: Install Fping
+  apt:
+    name: fping
+    state: latest
+
+- name: add user pinger
+  user:
+    name: pinger
+    home: /etc/pinger
+  notify: Restart pinger
+
+- name: create a directory
+  file:
+    path: /etc/pinger
+    state: directory
+
+- name: Put the config file in place
+  template:
+    src: pinger.conf
+    dest: /etc/pinger/pinger.conf
+  notify: Restart pinger
+
+- name: place script in bin/pinger
+  template:
+    src: pinger.sh
+    dest: /usr/local/bin/pinger
+    mode: '0777'
+  notify: Restart pinger
+
+- name: Create a service "pinger" that runs from user "pinger"
+  template:
+    src: pinger.service
+    dest: /etc/systemd/system/pinger.service
+  notify: reload deamon
+
+- name: start pinger
+  service:
+    name: pinger
+    state: started
+    enabled: yes

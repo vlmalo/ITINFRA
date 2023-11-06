@@ -26,8 +26,12 @@
 
 - name: Add datasource file
   template:
-    src: templates/main_datasource.yaml.j2
-    dest: /etc/grafana/provisioning/datasources/sample.yaml
+    src: "{{ item }}.j2"
+    dest: "/etc/grafana/provisioning/datasources/{{ item }}"
+  loop:
+    - main_datasource.yaml
+    - main_datasourceInfluxDB.yaml
+    - main_datasourceTelegraf.yaml
   notify: Restart grafana
 
 - name: add dashboard file conf
@@ -43,8 +47,11 @@
 
 - name: copy dashboard json
   copy:
-    src: main.json
-    dest: /var/lib/grafana/dashboards/main.json
+    src: "{{ item }}.json"
+    dest: "/var/lib/grafana/dashboards/{{ item }}.json"
+  loop:
+    - main
+    - syslog
   notify: Restart grafana
 
 - name: Start Grafana
