@@ -14,6 +14,7 @@
   hosts: prometheus
   roles:
     - prometheus
+  tags: p
 
 - name: Database server
   hosts: db_servers

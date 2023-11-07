@@ -1,8 +1,11 @@
 apiVersion: 1
 
+deleteDatasources:
+ - name: InfluxDB:latency
+
 datasources:
- - name: Influxdb - latency
+ - name: InfluxDB:latency
    type: influxdb
-   url: http://{{ inventory_hostname }}:8086
-   isDefault: False
+   access: proxy
+   url: http://{{ groups['influxdb'][0] }}:8086
    database: latency

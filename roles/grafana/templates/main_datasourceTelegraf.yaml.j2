@@ -1,9 +1,12 @@
 apiVersion: 1
 
+deleteDatasources:
+ - name: InfluxDB:telegraf
+
 datasources:
- - name: Influxdb - Telegraf
+ - name: InfluxDB:telegraf
    type: influxdb
-   url: http://{{ inventory_hostname }}:8086
+   url: http://{{ groups['influxdb'][0] }}:8086
    isDefault: False
    database: telegraf
 

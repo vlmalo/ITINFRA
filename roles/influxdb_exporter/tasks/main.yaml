@@ -1,8 +1,13 @@
 ---
 - name: Download Influxdb Exporter
   get_url:
-    url: https://github.com/carlpett/influxdb_stats_exporter/releases/download/v0.1.1/influx_stats_exporter_linux_amd64
-    dest: /usr/local/bin
+    url: https://github.com/carlpett/influxdb_stats_exporter/releases/download/v0.1.1/influx_stats_exporter_linux_386
+    dest: /usr/local/bin/influx_stats_exporter
+
+- name: Set execute permissions on the InfluxDB exporter binary
+  file:
+    path: /usr/local/bin/influx_stats_exporter
+    mode: '0755'
 
 - name: service for influxdb-exporter
   template:
