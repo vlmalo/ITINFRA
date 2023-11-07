@@ -51,7 +51,7 @@
     dest: "/var/lib/grafana/dashboards/{{ item }}.json"
   loop:
     - main
-#    - syslog
+    - syslog
   notify: Restart grafana
 
 - name: Start Grafana
