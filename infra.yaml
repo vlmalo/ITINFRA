@@ -5,6 +5,11 @@
   roles:
     - init
 
+- name: resolv
+  hosts: resolv
+  roles:
+    - resolv
+
 - name: DNS
   hosts: dns_servers
   roles:
