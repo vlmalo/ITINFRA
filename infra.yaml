@@ -4,6 +4,7 @@
   become: yes
   roles:
     - init
+  tags: init
 
 - name: resolv
   hosts: resolv
@@ -14,6 +15,7 @@
   hosts: dns_servers
   roles:
     - bind
+  tags: b
 
 - name: prometheus
   hosts: prometheus

@@ -53,3 +53,40 @@
     name: rsyslog
     state: started
     enabled: yes
+
+
+
+
+- name: Add backup user
+  user:
+    name: backup
+    group: backup
+    home: /home/backup/
+
+- name: Create the .ssh directory
+  file:
+    path: /home/backup/.ssh
+    state: directory
+    owner: backup
+    group: backup
+
+- name: Generate keypair
+  openssh_keypair:
+    path: /home/backup/.ssh/id_rsa
+    type: rsa
+    size: 2048
+
+- name: Set permissions for the private key
+  file:
+    path: /home/backup/.ssh/id_rsa
+    owner: backup
+    group: backup
+    mode: '0600'
+
+- name: known_hosts file for backup user
+  template:
+    src: known_hosts.j2
+    dest: /home/backup/.ssh/known_hosts
+    owner: backup
+    group: backup
+    mode: '0600'
