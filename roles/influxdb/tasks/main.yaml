@@ -40,6 +40,19 @@
     enabled: yes
 
 - name: copy influxdb.conf
-  ansible.builtin.template:
+  template:
     src: influxdb.conf
     dest: /etc/influxdb/influxdb.conf
+
+
+- name: Ensure backup folder is created
+  file:
+    path: /home/backup/influxdb/
+    state: directory
+    owner: backup
+    group: backup
+
+- name: influxdb backup
+  template:
+    src: influxdb-backup
+    dest: /etc/cron.d/influxdb-backup

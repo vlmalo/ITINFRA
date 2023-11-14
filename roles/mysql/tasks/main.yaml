@@ -56,3 +56,33 @@
      priv: '*.*:PROCESS,REPLICATION CLIENT,SELECT'
 
 
+
+- name: Create folder for mysql backups
+  file:
+    path: /home/backup/mysql
+    state: directory
+    owner: backup
+    group: backup
+
+- name: Create backup user
+  mysql_user:
+    name: backup
+    password: "{{ mysql_backup_password }}"
+    host: "%"
+    priv: "{{ mysql_database }}.*:LOCK TABLES,SELECT"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Copy my.cnf to home backup
+  copy:
+    src: .my.cnf.j2
+    dest: /home/backup/.my.cnf
+    owner: backup
+    group: backup
+  notify: Restart Mysql Service
+  no_log: yes
+
+
+- name: Upload crontab for agama backup
+  template:
+    src: mysql-backup
+    dest: /etc/cron.d/mysql-backup

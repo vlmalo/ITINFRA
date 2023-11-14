@@ -1,0 +1,5 @@
+30 0 * * *  backup  mysqldump agama > /home/backup/influxdb
+45 0 * * *  backup  duplicity --no-encryption full /home/backup/influxdb/ rsync://vlmalo@backup/influxdb
+45 0 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/influxdb/ rsync://vlmalo@backup/influxdb
+
+

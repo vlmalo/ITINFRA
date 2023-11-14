@@ -90,3 +90,14 @@
     owner: backup
     group: backup
     mode: '0600'
+
+- name: Ensure folder is created
+  file:
+    path: /home/backup/restore
+    state: directory
+    owner: backup
+    group: backup
+
+- name: Install duplicity
+  apt:
+    name: duplicity
