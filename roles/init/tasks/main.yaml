@@ -25,6 +25,7 @@
   apt:
     cache_valid_time: 86400
 
+
 - name: download node-exporter
   apt:
     name: prometheus-node-exporter
@@ -97,6 +98,8 @@
     state: directory
     owner: backup
     group: backup
+    mode: '0644'
+
 
 - name: Install duplicity
   apt:

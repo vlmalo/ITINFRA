@@ -47,10 +47,11 @@
 
 - name: Ensure backup folder is created
   file:
-    path: /home/backup/influxdb/
+    path: /home/backup/influxdb
     state: directory
     owner: backup
     group: backup
+    mode: '0755'
 
 - name: influxdb backup
   template:

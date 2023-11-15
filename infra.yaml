@@ -27,6 +27,7 @@
   hosts: db_servers
   roles:
     - mysql
+  tags: m
 
 - hosts: web_servers
   become_user: root

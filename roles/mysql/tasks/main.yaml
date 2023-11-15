@@ -63,6 +63,7 @@
     state: directory
     owner: backup
     group: backup
+    mode: "0755"
 
 - name: Create backup user
   mysql_user:
@@ -78,7 +79,7 @@
     dest: /home/backup/.my.cnf
     owner: backup
     group: backup
-  notify: Restart Mysql Service
+  notify: Restart MySQL Service
   no_log: yes
 
 
