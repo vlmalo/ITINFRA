@@ -62,27 +62,11 @@
   user:
     name: backup
     group: backup
-    home: /home/backup/
-
-- name: Create the .ssh directory
-  file:
-    path: /home/backup/.ssh
-    state: directory
-    owner: backup
-    group: backup
-
-- name: Generate keypair
-  openssh_keypair:
-    path: /home/backup/.ssh/id_rsa
-    type: rsa
-    size: 2048
-
-- name: Set permissions for the private key
-  file:
-    path: /home/backup/.ssh/id_rsa
-    owner: backup
-    group: backup
-    mode: '0600'
+    home: /home/backup
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: /home/backup/.ssh/id_rsa
+  become: yes
 
 - name: known_hosts file for backup user
   template:
@@ -90,7 +74,7 @@
     dest: /home/backup/.ssh/known_hosts
     owner: backup
     group: backup
-    mode: '0600'
+    mode: '0700'
 
 - name: Ensure folder is created
   file:
@@ -98,9 +82,10 @@
     state: directory
     owner: backup
     group: backup
-    mode: '0644'
+    mode: '0700'
 
 
 - name: Install duplicity
   apt:
     name: duplicity
+    state: present

@@ -7,6 +7,16 @@
   notify:
       - restart mysqld exporter
 
+- name: Copy my.cnf to home backup
+  template:
+    src: .my.cnf.backup.j2
+    dest: /home/backup/.my.cnf
+    owner: backup
+    group: backup
+    mode: '0400'
+  notify: Restart MySQL Service
+  no_log: true
+
 - name: Install MySQL server
   apt:
     name: mysql-server
@@ -63,25 +73,16 @@
     state: directory
     owner: backup
     group: backup
-    mode: "0755"
+    mode: '0700'
 
 - name: Create backup user
+  become: true
   mysql_user:
     name: backup
     password: "{{ mysql_backup_password }}"
-    host: "%"
-    priv: "{{ mysql_database }}.*:LOCK TABLES,SELECT"
+    priv: "*.*:LOCK TABLES,SELECT"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-
-- name: Copy my.cnf to home backup
-  copy:
-    src: .my.cnf.j2
-    dest: /home/backup/.my.cnf
-    owner: backup
-    group: backup
-  notify: Restart MySQL Service
-  no_log: yes
-
+    state: present
 
 - name: Upload crontab for agama backup
   template:
