@@ -1,5 +1,5 @@
-vlmalo-1 ansible_host=193.40.156.67 ansible_port=7922 ansible_user=ubuntu
-vlmalo-2 ansible_host=193.40.156.67 ansible_port=15422 ansible_user=ubuntu 
+vlmalo-1 ansible_host=193.40.156.67 ansible_port=39222 ansible_user=ubuntu
+vlmalo-2 ansible_host=193.40.156.67 ansible_port=31522 ansible_user=ubuntu 
 
 [db_servers]
 vlmalo-2
@@ -21,3 +21,4 @@ vlmalo-1
 
 [influxdb]
 vlmalo-1
+vlmalo-2
