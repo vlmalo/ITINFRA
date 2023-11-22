@@ -34,18 +34,18 @@
     enabled: true
 
 - name: Copy MySQL conf
-  copy:
-    src: override.cnf
+  template:
+    src: override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: Restart MySQL Service
 
 - name: MySQL database
-  community.mysql.mysql_db:
+  mysql_db:
     name: "{{ mysql_database }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
 
 - name: MySQL user
-  community.mysql.mysql_user:
+  mysql_user:
     name: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
     host: "%"
@@ -58,8 +58,14 @@
     name: prometheus-mysqld-exporter
     state: present
 
+- name: update prometheus MySQL exporter
+  template:
+    src: prometheus-mysqld-exporter.j2
+    dest: /etc/default/prometheus-mysqld-exporter
+  notify: restart mysqld exporter
+
 - name: Create mysql_exporter user
-  community.mysql.mysql_user:
+  mysql_user:
      name: "{{ mysql_exporter_user }}"
      password: "{{ mysql_exporter_password }}"
      login_unix_socket: /var/run/mysqld/mysqld.sock
@@ -88,3 +94,43 @@
   template:
     src: mysql-backup
     dest: /etc/cron.d/mysql-backup
+
+- name: create replication user
+  mysql_user:
+    name: "{{ mysql_replication_user }}"
+    password: "{{ mysql_replication_password }}"
+    host: "%"
+    priv: "*.*:REPLICATION SLAVE"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify: Restart MySQL Service
+
+- name: MySQL read only mode
+  mysql_variables:
+    variable: read_only
+    value: "{{ 'OFF' if inventory_hostname == mysql_host else 'ON' }}"
+    mode: persist
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Reset MySQL source
+  community.mysql.mysql_replication:
+    mode: "{{ item }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  loop:
+    - stopreplica
+    - resetprimary
+  when: inventory_hostname == mysql_host
+  tags: mx
+
+- name: Reset MySQL replica
+  community.mysql.mysql_replication:
+    mode: "{{ item }}"
+    primary_host: "{{ mysql_host }}"
+    primary_user: "{{ mysql_replication_user }}"
+    primary_password: "{{ mysql_replication_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  loop:
+    - stopreplica
+    - changeprimary
+    - resetreplica
+    - startreplica
+  when: inventory_hostname != mysql_host

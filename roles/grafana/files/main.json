@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -87,7 +87,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 10,
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -106,15 +106,19 @@
             "type": "prometheus",
             "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "100-rate(influxdb_write_write_ok[1m])",
+          "expr": "1-rate(node_cpu_seconds_total{mode=\"idle\"}[1m])",
+          "fullMetaSearch": false,
+          "includeNullMetadata": false,
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "InfluxDB write rate ",
+      "title": "CPU load",
       "type": "timeseries"
     },
     {
@@ -182,7 +186,7 @@
         "x": 8,
         "y": 0
       },
-      "id": 6,
+      "id": 5,
       "options": {
         "legend": {
           "calcs": [],
@@ -202,14 +206,14 @@
             "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
           },
           "editorMode": "code",
-          "expr": "rate(bind_resolver_queries_total[1m])",
+          "expr": "node_memory_MemFree_bytes/node_memory_MemTotal_bytes*100",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "DNS queries",
+      "title": "Memory consumption",
       "type": "timeseries"
     },
     {
@@ -250,7 +254,7 @@
         "x": 16,
         "y": 0
       },
-      "id": 3,
+      "id": 7,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -263,9 +267,10 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.2.0",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -325,7 +330,7 @@
         "x": 20,
         "y": 0
       },
-      "id": 9,
+      "id": 8,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -338,9 +343,10 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "10.2.0",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -400,7 +406,7 @@
         "x": 16,
         "y": 5
       },
-      "id": 2,
+      "id": 9,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -413,9 +419,10 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.2.0",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -471,7 +478,7 @@
         "x": 20,
         "y": 5
       },
-      "id": 1,
+      "id": 10,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -484,9 +491,10 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "10.2.0",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -569,7 +577,102 @@
         "x": 0,
         "y": 7
       },
-      "id": 8,
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
+          },
+          "editorMode": "code",
+          "expr": "rate(mysql_global_status_commands_total{command=\"select\"}[1m])",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "MySQL selects",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 7
+      },
+      "id": 3,
       "options": {
         "legend": {
           "calcs": [],
@@ -663,107 +766,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 8,
-        "y": 7
-      },
-      "id": 7,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
-          },
-          "editorMode": "code",
-          "expr": "rate(mysql_global_status_commands_total{command=\"select\"}[1m])",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "MySQL selects",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 13
       },
-      "id": 5,
+      "id": 2,
       "options": {
         "legend": {
           "calcs": [],
@@ -783,14 +791,14 @@
             "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
           },
           "editorMode": "code",
-          "expr": "node_memory_MemFree_bytes/node_memory_MemTotal_bytes*100",
+          "expr": "rate(bind_resolver_queries_total[1m])",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Memory consumption",
+      "title": "DNS queries",
       "type": "timeseries"
     },
     {
@@ -858,7 +866,7 @@
         "x": 8,
         "y": 13
       },
-      "id": 4,
+      "id": 1,
       "options": {
         "legend": {
           "calcs": [],
@@ -877,36 +885,32 @@
             "type": "prometheus",
             "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
           },
-          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "1-rate(node_cpu_seconds_total{mode=\"idle\"}[1m])",
-          "fullMetaSearch": false,
-          "includeNullMetadata": false,
+          "expr": "100-rate(influxdb_write_write_ok[1m])",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A",
-          "useBackend": false
+          "refId": "A"
         }
       ],
-      "title": "CPU load",
+      "title": "InfluxDB write rate ",
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "schemaVersion": 38,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "2023-11-08T10:09:58.267Z",
-    "to": "2023-11-08T11:47:27.007Z"
+    "from": "now-6h",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "DATA",
-  "uid": "ccb87fb9-b35e-49c5-91d2-4c48e9e9577d",
-  "version": 1,
+  "title": "main",
+  "uid": "e2ddaab6-570a-4b30-ade1-1d4c35c3aae8",
+  "version": 2,
   "weekStart": ""
 }

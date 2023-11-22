@@ -52,6 +52,7 @@
   loop:
     - main
     - syslog
+    - mysql
   notify: Restart grafana
 
 - name: Start Grafana
