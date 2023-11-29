@@ -1,30 +1,29 @@
 ---
-- name: Create system agama
-  user:
-    name: agama
-    state: present
-
 - name: Create /opt/agama
-  become: yes
   file:
     path: /opt/agama
     state: directory
-    owner: agama
-    group: agama
-    mode: '0755'
-
-- name: Installing dependencies
-  apt:
-    name:
-      - python3-flask-sqlalchemy
-      - python3-pymysql
-    state: latest
 
 - name: Downloading AGAMA
   get_url:
-    url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
-    dest: /opt/agama/agama.py
-    owner: agama
-    group: agama
+    url: https://raw.githubusercontent.com/hudolejev/agama/master/{{ item }}
+    dest: /opt/agama
+  loop:
+    - agama.py
+    - Dockerfile
 
+- name: Build the image
+  docker_image:
+    name: agama
+    source: build
+    build:
+      path: /opt/agama
 
+- name: Agama container
+  docker_container:
+    name: agama
+    image: agama
+    published_ports: "{{ agama_port }}:8000"
+    env:
+      "AGAMA_DATABASE_URI=mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}"
+    restart_policy: always
