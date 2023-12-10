@@ -19,6 +19,7 @@ startup_name: talkmate.it
 lan_ip:
   - 127.0.0.0/8
   - 192.168.42.0/23
+  - 172.17.0.0/16
 
 mysql_exporter_user: mysql_exporter
 mysql_exporter_password: !vault |
@@ -64,4 +65,4 @@ node_id: "{{ (ansible_port / 100) | int }}"
 mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
 
 grafana_port: 3001
-agama_port: 8001
+agama_port: 8000

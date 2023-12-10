@@ -29,17 +29,22 @@
     - mysql
   tags: m
 
+- name: Docker
+  hosts: docker
+  roles:
+    - docker
+  tags: docker
+
 - hosts: web_servers
   become_user: root
   roles:
     - agama
-    - uwsgi
     - nginx
+  tags: agama
 
 - name: Grafana
   hosts: grafana
   roles:
-    - docker
     - grafana
   tags: g
 
