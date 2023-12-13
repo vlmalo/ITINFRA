@@ -1,0 +1,53 @@
+---
+- name: Install keepalived
+  apt:
+    name: keepalived
+    state: latest
+
+- name: insert keepalived.conf
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  notify: restart keepalived
+
+- name: keepalived_script user
+  user:
+    name: keepalived_script
+    home: /home/keepalived_script
+
+- name: keepalived script
+  template:
+    src: keepalived_script.j2
+    dest: /home/keepalived_script/keepalived_script.sh
+    mode: 0755
+  notify: restart keepalived
+
+- name: Upload keepalived exporter file
+  unarchive:
+    src: http://backup/keepalived-exporter-1.2.0.linux-amd64.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0755
+  notify: restart keepalived exporter
+
+- name: Create keepalived exporter service
+  template:
+    src: keepalived-exporter.service.j2
+    dest: /etc/systemd/system/keepalived-exporter.service
+    owner: root
+    mode: 0755
+  notify:
+    - reload systemd
+    - restart keepalived exporter
+
+- name: Start keepalived
+  service:
+    name: keepalived
+    state: started
+    enabled: yes
+
+- name: Start keepalived exporter
+  service:
+    name: keepalived-exporter
+    state: started
+    enabled: yes

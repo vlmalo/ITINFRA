@@ -55,3 +55,10 @@
     - influxdb_exporter
     - pinger
   tags: i
+
+- name: Keepalived
+  hosts: keepalived
+  roles:
+    - keepalived
+    - haproxy
+  tags: k
