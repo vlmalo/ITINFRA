@@ -1,5 +1,15 @@
-vlmalo-1 ansible_host=193.40.156.67 ansible_port=40222 ansible_user=ubuntu
-vlmalo-2 ansible_host=193.40.156.67 ansible_port=30622 ansible_user=ubuntu 
+vlmalo-1 ansible_host=193.40.156.67 ansible_port=31122 ansible_user=ubuntu
+vlmalo-2 ansible_host=193.40.156.67 ansible_port=37922 ansible_user=ubuntu 
+
+[dns_master]
+vlmalo-2
+
+[dns_slave]
+vlmalo-1
+
+[dns_servers:children]
+dns_master
+dns_slave
 
 [db_servers]
 vlmalo-2
@@ -8,14 +18,8 @@ vlmalo-1
 [web_servers]
 vlmalo-1
 
-[dns_servers]
-vlmalo-2
-
 [prometheus]
 vlmalo-2
-
-[resolv]
-vlmalo-1
 
 [grafana]
 vlmalo-1

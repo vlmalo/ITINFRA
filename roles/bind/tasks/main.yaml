@@ -3,40 +3,68 @@
   apt:
     pkg:
       - bind9
+      - prometheus-bind-exporter
+      - python3-dnspython
 
-- name: Ensure that bind9 is running
-  service:
-    name: bind9
-    state: started
-    enabled: yes
-
-- name: copy DNS conf
+- name: copy DNS conf local
   template:
-    dest: /etc/bind/named.conf.{{ item }}
-    src: named.conf.{{ item }}.j2
-  loop:
-    - options
-    - local
+    dest: /etc/bind/named.conf.local
+    src: named.conf.local.j2
   notify: Restart bind
+
+- name: copy DNS conf options
+  template:
+    dest: /etc/bind/named.conf.options
+    src: named.conf.options.j2
+  notify: Restart bind
+
 
 - name: copy master zone database
   template:
-    dest: /var/lib/bind/db.{{ startup_name }}
+    dest: /var/cache/bind/db.{{ startup_name }}
     src: db.talkmate.j2
-  notify: Reload bind
+  notify: rndc bind
+  when: inventory_hostname in groups['dns_master']
 
-- name: Alter DNS server
+- name: copy rev zone database
   template:
-    src: resolv.conf.j2
-    dest: /etc/resolv.conf
-  notify: Restart bind
+    dest: /var/cache/bind/db.{{ startup_name }}.reverse
+    src: db.talkmate.reverse
+  notify: rndc bind
+  when: inventory_hostname in groups['dns_master']
 
-- name: install bind9 exporter
-  apt:
-    name: prometheus-bind-exporter
-    state: present
+- name: flush handlers
+  meta: flush_handlers
 
-- name: Start bind9 exporter
+- name: Start bind and exporter
   service:
-    name: prometheus-bind-exporter
+    name: "{{ item }}"
     state: started
+    enabled: yes
+  loop:
+    - bind9
+    - prometheus-bind-exporter
+
+- name: record
+  community.general.nsupdate:
+    key_name: "update_key"
+    key_algorithm: "hmac-sha256"
+    key_secret: "{{ update_key }}"
+    server: "localhost"
+    zone: "{{ startup_name }}"
+    record: "backup"
+    value: "{{ backup }}"
+  when: inventory_hostname in groups['dns_master']
+
+- name: set cname
+  nsupdate:
+    key_name: "update_key"
+    key_algorithm: "hmac-sha256"
+    key_secret: "{{ update_key }}"
+    server: "{{ inventory_hostname }}"
+    zone: "{{ startup_name }}"
+    record: "ns{{ item | replace('vlmalo', '') }}"
+    value: "{{ item }}"
+    type: "CNAME"
+  with_items: "{{ groups['dns_servers'] }}"
+  when: inventory_hostname in groups['dns_master']

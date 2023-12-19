@@ -1,1 +1,1 @@
-ARGS=--web.external-url=http://{{ hostvars['vlmalo-1']['ansible_host'] }}:{{ hostvars['vlmalo-1']['ansible_port'] | int + 58 }}/prometheus
+ARGS=--web.external-url=http://{{ hostvars[groups['web_servers'][0]]['ansible_host'] }}:{{ hostvars[groups['web_servers'][0]]['ansible_port'] | int + 58 }}/prometheus

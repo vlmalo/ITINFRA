@@ -29,3 +29,15 @@
   loop: "{{ range(1, 3) | list }}"
   loop_control:
     loop_var: item
+
+- name: add cname records
+  nsupdate:
+    key_name: "update_key"
+    key_algorithm: "hmac-sha256"
+    key_secret: "{{ update_key }}"
+    server: "{{ item }}"
+    zone: "{{ startup_name }}"
+    record: "www{{ inventory_hostname | replace('vlmalo', '') }}"
+    value: "{{ inventory_hostname }}"
+    type: "CNAME"
+  with_items: "{{ groups['dns_master'] }}"

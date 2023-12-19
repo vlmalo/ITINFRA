@@ -21,3 +21,15 @@
     src: prometheus.j2
     dest: /etc/default/prometheus
   notify: restart prometheus
+
+- name: add cname records
+  nsupdate:
+    key_name: "update_key"
+    key_algorithm: "hmac-sha256"
+    key_secret: "{{ update_key }}"
+    server: "{{ item }}"
+    zone: "{{ startup_name }}"
+    record: "prometheus"
+    value: "{{ inventory_hostname }}"
+    type: "CNAME"
+  with_items: "{{ groups['dns_master'] }}"

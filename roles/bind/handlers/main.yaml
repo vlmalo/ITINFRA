@@ -4,5 +4,5 @@
     name: bind9
     state: restarted
 
-- name: Reload bind
+- name: rndc bind
   command: rndc reload

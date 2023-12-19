@@ -113,3 +113,15 @@
   notify:
     - Reset MySQL source
     - Reset MySQL replica
+
+- name: add cname records
+  nsupdate:
+    key_name: "update_key"
+    key_algorithm: "hmac-sha256"
+    key_secret: "{{ update_key }}"
+    server: "{{ item }}"
+    zone: "{{ startup_name }}"
+    record: "mysql{{ inventory_hostname | replace('vlmalo', '') }}"
+    value: "{{ inventory_hostname }}"
+    type: "CNAME"
+  with_items: "{{ groups['dns_master'] }}"
