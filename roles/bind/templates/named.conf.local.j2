@@ -7,15 +7,15 @@ zone "{{ startup_name }}" {
     type secondary;
     allow-transfer {127.0.0.1; key transfer_key;};
     masters {
-{% for master in group ['dns_master'] %} 
-	{{ hostvars[groups[master]]['ansible_default_ipv4']['address'] }};
+{% for master in groups ['dns_master'] %} 
+	{{ hostvars[master]['ansible_default_ipv4']['address'] }};
 {% endfor %}
     }; 
 {% endif %}
     file "db.{{ startup_name }}";
 };
 
-zone "168.192.in-addr.arpa"
+zone "168.192.in-addr.arpa" {
 {% if inventory_hostname in groups ['dns_master'] %}
     type master;
     allow-update {key update_key;};
@@ -24,8 +24,8 @@ zone "168.192.in-addr.arpa"
     type secondary;
     allow-transfer {127.0.0.1; key transfer_key;};
     masters {
-{% for master in group ['dns_master'] %}
-        {{ hostvars[groups[master]]['ansible_default_ipv4']['address'] }};
+{% for master in groups ['dns_master'] %}
+        {{ hostvars[master]['ansible_default_ipv4']['address'] }};
 {% endfor %}
     };
 {% endif %}

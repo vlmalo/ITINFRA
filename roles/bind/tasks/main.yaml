@@ -10,12 +10,14 @@
   template:
     dest: /etc/bind/named.conf.local
     src: named.conf.local.j2
+  no_log: true
   notify: Restart bind
 
 - name: copy DNS conf options
   template:
     dest: /etc/bind/named.conf.options
     src: named.conf.options.j2
+  no_log: true
   notify: Restart bind
 
 
@@ -23,6 +25,7 @@
   template:
     dest: /var/cache/bind/db.{{ startup_name }}
     src: db.talkmate.j2
+#    force: no
   notify: rndc bind
   when: inventory_hostname in groups['dns_master']
 
@@ -30,6 +33,7 @@
   template:
     dest: /var/cache/bind/db.{{ startup_name }}.reverse
     src: db.talkmate.reverse
+#    force: no
   notify: rndc bind
   when: inventory_hostname in groups['dns_master']
 
@@ -46,7 +50,7 @@
     - prometheus-bind-exporter
 
 - name: record
-  community.general.nsupdate:
+  nsupdate:
     key_name: "update_key"
     key_algorithm: "hmac-sha256"
     key_secret: "{{ update_key }}"

@@ -15,6 +15,7 @@
   hosts: all
   roles:
     - resolv
+  tags: r
 
 - name: prometheus
   hosts: prometheus
@@ -32,12 +33,12 @@
   hosts: docker
   roles:
     - docker
+    - agama
   tags: docker
 
 - hosts: web_servers
   become_user: root
   roles:
-    - agama
     - nginx
   tags: agama
 
