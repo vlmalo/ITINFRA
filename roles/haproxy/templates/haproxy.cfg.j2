@@ -30,7 +30,7 @@ listen my_ha_frontend
 {% set count = namespace(value=1) %}
 {% for m in groups['haproxy'] %}
 {% for n in range(nginx_container_per_vm) %}
-    server s_{{ count.value }} {{ m }}:{{8001 + n}} check
+    server s_{{ count.value }} {{ m }}:{{agama_port + n}} check
 {% set count.value = count.value + 1 %}
 {% endfor %}
 {% endfor %}

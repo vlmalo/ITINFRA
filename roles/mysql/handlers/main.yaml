@@ -10,7 +10,7 @@
     state: restarted
 
 - name: Reset MySQL source
-  community.mysql.mysql_replication:
+  mysql_replication:
     mode: "{{ item }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   loop:
@@ -19,7 +19,7 @@
   when: inventory_hostname == mysql_host
 
 - name: Reset MySQL replica
-  community.mysql.mysql_replication:
+  mysql_replication:
     mode: "{{ item }}"
     primary_host: "{{ mysql_host }}"
     primary_user: "{{ mysql_replication_user }}"
@@ -31,3 +31,4 @@
     - resetreplica
     - startreplica
   when: inventory_hostname != mysql_host
+  no_log: true

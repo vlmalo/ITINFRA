@@ -6,6 +6,7 @@
     dest: /var/lib/prometheus/.my.cnf
   notify:
       - restart mysqld exporter
+  no_log: true
 
 - name: Copy my.cnf to home backup
   template:
@@ -51,7 +52,7 @@
     host: "%"
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-
+  no_log: true
 
 - name: Install MySQL Exporter
   apt:
@@ -70,7 +71,7 @@
      password: "{{ mysql_exporter_password }}"
      login_unix_socket: /var/run/mysqld/mysqld.sock
      priv: '*.*:PROCESS,REPLICATION CLIENT,SELECT'
-
+  no_log: true
 
 
 - name: Create folder for mysql backups
@@ -89,6 +90,7 @@
     priv: "*.*:LOCK TABLES,SELECT"
     login_unix_socket: /var/run/mysqld/mysqld.sock
     state: present
+  no_log: true
 
 - name: Upload crontab for agama backup
   template:
@@ -103,6 +105,7 @@
     priv: "*.*:REPLICATION SLAVE"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   notify: Restart MySQL Service
+  no_log: true
 
 - name: MySQL read only mode
   mysql_variables:

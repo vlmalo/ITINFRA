@@ -25,7 +25,7 @@
   template:
     dest: /var/cache/bind/db.{{ startup_name }}
     src: db.talkmate.j2
-#    force: no
+    force: no
   notify: rndc bind
   when: inventory_hostname in groups['dns_master']
 
@@ -33,7 +33,7 @@
   template:
     dest: /var/cache/bind/db.{{ startup_name }}.reverse
     src: db.talkmate.reverse
-#    force: no
+    force: no
   notify: rndc bind
   when: inventory_hostname in groups['dns_master']
 

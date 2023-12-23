@@ -23,12 +23,10 @@
   docker_container:
     name: "agama_{{ item }}"
     image: agama
-    published_ports: "{{ agama_port + item|int }}:8000"
+    published_ports: "{{ agama_port + item }}:8000"
     env:
       "AGAMA_DATABASE_URI": "mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}"
-  loop: "{{ range(1, 3) | list }}"
-  loop_control:
-    loop_var: item
+  loop: "{{ range(nginx_container_per_vm) }}"
 
 - name: add cname records
   nsupdate:
