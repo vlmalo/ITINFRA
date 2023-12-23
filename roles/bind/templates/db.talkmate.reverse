@@ -1,5 +1,5 @@
 $TTL    604800
-168.192.in-addr.arpa.    IN      SOA    vlmalo-1.{{ startup_name }}. vlad.{{ startup_name }}. (
+168.192.in-addr.arpa.    IN      SOA    {{ groups['dns_master'][0] }}.{{ startup_name }}. vlad.{{ startup_name }}. (
                               2         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
