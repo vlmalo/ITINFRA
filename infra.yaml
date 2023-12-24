@@ -39,8 +39,14 @@
   hosts: docker
   roles:
     - docker
-    - agama
   tags: docker
+
+- name: Agama
+  become: yes
+  hosts: agama
+  roles:
+    - agama
+  tags: agama
 
 - hosts: web_servers
   become: yes
