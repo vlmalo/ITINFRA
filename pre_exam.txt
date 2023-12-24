@@ -1,0 +1,4685 @@
+P 24 dets  2023 18:00:15 EET
++ hostname
+vlmalo-VirtualBox
++ ansible-playbook infra.yaml --diff
+
+PLAY [Initial setup] ***********************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-2]
+ok: [vlmalo-1]
+ok: [vlmalo-3]
+
+TASK [init : Update APT cache] *************************************************
+ok: [vlmalo-1]
+changed: [vlmalo-2]
+changed: [vlmalo-3]
+
+TASK [init : download node-exporter] *******************************************
+The following additional packages will be installed:
+  libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
+  moreutils prometheus-node-exporter-collectors smartmontools
+Suggested packages:
+  gsmartcontrol smart-notifier mailx | mailutils
+The following NEW packages will be installed:
+  libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
+  moreutils prometheus-node-exporter prometheus-node-exporter-collectors
+  smartmontools
+0 upgraded, 8 newly installed, 0 to remove and 265 not upgraded.
+changed: [vlmalo-2]
+The following additional packages will be installed:
+  libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
+  moreutils prometheus-node-exporter-collectors smartmontools
+Suggested packages:
+  gsmartcontrol smart-notifier mailx | mailutils
+The following NEW packages will be installed:
+  libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
+  moreutils prometheus-node-exporter prometheus-node-exporter-collectors
+  smartmontools
+0 upgraded, 8 newly installed, 0 to remove and 265 not upgraded.
+changed: [vlmalo-1]
+The following additional packages will be installed:
+  libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
+  moreutils prometheus-node-exporter-collectors smartmontools
+Suggested packages:
+  gsmartcontrol smart-notifier mailx | mailutils
+The following NEW packages will be installed:
+  libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
+  moreutils prometheus-node-exporter prometheus-node-exporter-collectors
+  smartmontools
+0 upgraded, 8 newly installed, 0 to remove and 265 not upgraded.
+changed: [vlmalo-3]
+
+TASK [init : Update CA certificates] *******************************************
+The following packages will be upgraded:
+  ca-certificates
+1 upgraded, 0 newly installed, 0 to remove and 264 not upgraded.
+changed: [vlmalo-2]
+The following packages will be upgraded:
+  ca-certificates
+Preconfiguring packages ...
+1 upgraded, 0 newly installed, 0 to remove and 264 not upgraded.
+changed: [vlmalo-1]
+The following packages will be upgraded:
+  ca-certificates
+1 upgraded, 0 newly installed, 0 to remove and 264 not upgraded.
+changed: [vlmalo-3]
+
+TASK [init : Install Rsyslog] **************************************************
+Suggested packages:
+  rsyslog-mysql | rsyslog-pgsql rsyslog-mongodb rsyslog-doc rsyslog-openssl
+  | rsyslog-gnutls rsyslog-gssapi rsyslog-relp
+The following packages will be upgraded:
+  rsyslog
+1 upgraded, 0 newly installed, 0 to remove and 263 not upgraded.
+changed: [vlmalo-2]
+Suggested packages:
+  rsyslog-mysql | rsyslog-pgsql rsyslog-mongodb rsyslog-doc rsyslog-openssl
+  | rsyslog-gnutls rsyslog-gssapi rsyslog-relp
+The following packages will be upgraded:
+  rsyslog
+1 upgraded, 0 newly installed, 0 to remove and 263 not upgraded.
+changed: [vlmalo-1]
+Suggested packages:
+  rsyslog-mysql | rsyslog-pgsql rsyslog-mongodb rsyslog-doc rsyslog-openssl
+  | rsyslog-gnutls rsyslog-gssapi rsyslog-relp
+The following packages will be upgraded:
+  rsyslog
+1 upgraded, 0 newly installed, 0 to remove and 263 not upgraded.
+changed: [vlmalo-3]
+
+TASK [init : conf rsyslog] *****************************************************
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpqmvpgilm/51-telegraf.conf
+@@ -0,0 +1,6 @@
++$ActionQueueType LinkedList # use asynchronous processing
++$ActionQueueFileName srvrfwd # set file name, also enables disk mode
++$ActionResumeRetryCount -1 # infinite retries on insert failure
++$ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
++
++*.* @influxdb:6514;RSYSLOG_SyslogProtocol23Format
+
+changed: [vlmalo-2]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp1hk0zhfn/51-telegraf.conf
+@@ -0,0 +1,6 @@
++$ActionQueueType LinkedList # use asynchronous processing
++$ActionQueueFileName srvrfwd # set file name, also enables disk mode
++$ActionResumeRetryCount -1 # infinite retries on insert failure
++$ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
++
++*.* @influxdb:6514;RSYSLOG_SyslogProtocol23Format
+
+changed: [vlmalo-1]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp0kghs0al/51-telegraf.conf
+@@ -0,0 +1,6 @@
++$ActionQueueType LinkedList # use asynchronous processing
++$ActionQueueFileName srvrfwd # set file name, also enables disk mode
++$ActionResumeRetryCount -1 # infinite retries on insert failure
++$ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
++
++*.* @influxdb:6514;RSYSLOG_SyslogProtocol23Format
+
+changed: [vlmalo-3]
+
+TASK [init : Start rsyslog] ****************************************************
+ok: [vlmalo-1]
+ok: [vlmalo-2]
+ok: [vlmalo-3]
+
+TASK [init : Add backup user] **************************************************
+changed: [vlmalo-3]
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+TASK [init : known_hosts file for backup user] *********************************
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmptpo_nqgh/known_hosts.j2
+@@ -0,0 +1,3 @@
++192.168.42.132 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup.talkmate.it ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
+
+changed: [vlmalo-2]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp7u5e5r21/known_hosts.j2
+@@ -0,0 +1,3 @@
++192.168.42.132 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup.talkmate.it ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
+
+changed: [vlmalo-3]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpg1d0alqw/known_hosts.j2
+@@ -0,0 +1,3 @@
++192.168.42.132 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup.talkmate.it ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
+
+changed: [vlmalo-1]
+
+TASK [init : Ensure folder is created] *****************************************
+--- before
++++ after
+@@ -1,7 +1,7 @@
+ {
+-    "group": 0,
+-    "mode": "0755",
+-    "owner": 0,
++    "group": 34,
++    "mode": "0700",
++    "owner": 34,
+     "path": "/home/backup/restore",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-2]
+--- before
++++ after
+@@ -1,7 +1,7 @@
+ {
+-    "group": 0,
+-    "mode": "0755",
+-    "owner": 0,
++    "group": 34,
++    "mode": "0700",
++    "owner": 34,
+     "path": "/home/backup/restore",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-1]
+--- before
++++ after
+@@ -1,7 +1,7 @@
+ {
+-    "group": 0,
+-    "mode": "0755",
+-    "owner": 0,
++    "group": 34,
++    "mode": "0700",
++    "owner": 34,
+     "path": "/home/backup/restore",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-3]
+
+TASK [init : Install duplicity] ************************************************
+The following additional packages will be installed:
+  librsync2 python3-bcrypt python3-fasteners python3-future python3-lockfile
+  python3-monotonic python3-paramiko
+Suggested packages:
+  python3-boto ncftp lftp tahoe-lafs python3-swiftclient python3-pip par2
+  python-future-doc python-lockfile-doc python3-gssapi
+The following NEW packages will be installed:
+  duplicity librsync2 python3-bcrypt python3-fasteners python3-future
+  python3-lockfile python3-monotonic python3-paramiko
+0 upgraded, 8 newly installed, 0 to remove and 263 not upgraded.
+changed: [vlmalo-3]
+The following additional packages will be installed:
+  librsync2 python3-bcrypt python3-fasteners python3-future python3-lockfile
+  python3-monotonic python3-paramiko
+Suggested packages:
+  python3-boto ncftp lftp tahoe-lafs python3-swiftclient python3-pip par2
+  python-future-doc python-lockfile-doc python3-gssapi
+The following NEW packages will be installed:
+  duplicity librsync2 python3-bcrypt python3-fasteners python3-future
+  python3-lockfile python3-monotonic python3-paramiko
+0 upgraded, 8 newly installed, 0 to remove and 263 not upgraded.
+changed: [vlmalo-2]
+The following additional packages will be installed:
+  librsync2 python3-bcrypt python3-fasteners python3-future python3-lockfile
+  python3-monotonic python3-paramiko
+Suggested packages:
+  python3-boto ncftp lftp tahoe-lafs python3-swiftclient python3-pip par2
+  python-future-doc python-lockfile-doc python3-gssapi
+The following NEW packages will be installed:
+  duplicity librsync2 python3-bcrypt python3-fasteners python3-future
+  python3-lockfile python3-monotonic python3-paramiko
+0 upgraded, 8 newly installed, 0 to remove and 263 not upgraded.
+changed: [vlmalo-1]
+
+RUNNING HANDLER [init : Restart Rsyslog] ***************************************
+changed: [vlmalo-2]
+changed: [vlmalo-1]
+changed: [vlmalo-3]
+
+PLAY [DNS] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-3]
+ok: [vlmalo-2]
+ok: [vlmalo-1]
+
+TASK [bind : Install bind9] ****************************************************
+The following additional packages will be installed:
+  bind9-dnsutils bind9-libs bind9-utils dns-root-data python3-ply
+Suggested packages:
+  bind-doc resolvconf python-ply-doc
+The following NEW packages will be installed:
+  bind9 bind9-utils dns-root-data prometheus-bind-exporter python3-dnspython
+  python3-ply
+The following packages will be upgraded:
+  bind9-dnsutils bind9-libs
+2 upgraded, 6 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+The following additional packages will be installed:
+  bind9-dnsutils bind9-libs bind9-utils dns-root-data python3-ply
+Suggested packages:
+  bind-doc resolvconf python-ply-doc
+The following NEW packages will be installed:
+  bind9 bind9-utils dns-root-data prometheus-bind-exporter python3-dnspython
+  python3-ply
+The following packages will be upgraded:
+  bind9-dnsutils bind9-libs
+2 upgraded, 6 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-2]
+The following additional packages will be installed:
+  bind9-dnsutils bind9-libs bind9-utils dns-root-data python3-ply
+Suggested packages:
+  bind-doc resolvconf python-ply-doc
+The following NEW packages will be installed:
+  bind9 bind9-utils dns-root-data prometheus-bind-exporter python3-dnspython
+  python3-ply
+The following packages will be upgraded:
+  bind9-dnsutils bind9-libs
+2 upgraded, 6 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-3]
+
+TASK [bind : copy DNS conf local] **********************************************
+changed: [vlmalo-3]
+changed: [vlmalo-2]
+changed: [vlmalo-1]
+
+TASK [bind : copy DNS conf options] ********************************************
+changed: [vlmalo-3]
+changed: [vlmalo-2]
+changed: [vlmalo-1]
+
+TASK [bind : copy master zone database] ****************************************
+skipping: [vlmalo-2]
+skipping: [vlmalo-1]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp9oil9hds/db.talkmate.j2
+@@ -0,0 +1,14 @@
++$TTL    604800
++talkmate.it.    IN      SOA    vlmalo-3.talkmate.it. vlad.talkmate.it. (
++                              2         ; Serial
++                         604800         ; Refresh
++                          86400         ; Retry
++                        2419200         ; Expire
++                         604800 )       ; Negative Cache TTL
++;
++talkmate.it.    IN      NS      vlmalo-3
++talkmate.it.    IN      NS      vlmalo-2
++talkmate.it.    IN      NS      vlmalo-1
++vlmalo-2        IN      A       192.168.42.193
++vlmalo-1        IN      A       192.168.42.180
++vlmalo-3        IN      A       192.168.42.26
+
+changed: [vlmalo-3]
+
+TASK [bind : copy rev zone database] *******************************************
+skipping: [vlmalo-2]
+skipping: [vlmalo-1]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmphe6lvx_p/db.talkmate.reverse
+@@ -0,0 +1,16 @@
++$TTL    604800
++168.192.in-addr.arpa.    IN      SOA    vlmalo-3.talkmate.it. vlad.talkmate.it. (
++                              2         ; Serial
++                         604800         ; Refresh
++                          86400         ; Retry
++                        2419200         ; Expire
++                         604800 )       ; Negative Cache TTL
++;
++168.192.in-addr.arpa.    IN      NS      vlmalo-3.talkmate.it.
++168.192.in-addr.arpa.    IN      NS      vlmalo-2.talkmate.it.
++168.192.in-addr.arpa.    IN      NS      vlmalo-1.talkmate.it.
++193.42        IN      PTR       vlmalo-2.talkmate.it.
++180.42        IN      PTR       vlmalo-1.talkmate.it.
++26.42        IN      PTR       vlmalo-3.talkmate.it.
++
++
+
+changed: [vlmalo-3]
+
+TASK [bind : flush handlers] ***************************************************
+
+RUNNING HANDLER [bind : Restart bind] ******************************************
+changed: [vlmalo-3]
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+RUNNING HANDLER [bind : rndc bind] *********************************************
+changed: [vlmalo-3]
+
+TASK [bind : Start bind and exporter] ******************************************
+ok: [vlmalo-3] => (item=bind9)
+ok: [vlmalo-2] => (item=bind9)
+ok: [vlmalo-1] => (item=bind9)
+ok: [vlmalo-3] => (item=prometheus-bind-exporter)
+ok: [vlmalo-1] => (item=prometheus-bind-exporter)
+ok: [vlmalo-2] => (item=prometheus-bind-exporter)
+
+TASK [bind : record] ***********************************************************
+skipping: [vlmalo-2]
+skipping: [vlmalo-1]
+changed: [vlmalo-3]
+
+TASK [bind : set cname] ********************************************************
+skipping: [vlmalo-2] => (item=vlmalo-3) 
+skipping: [vlmalo-2] => (item=vlmalo-2) 
+skipping: [vlmalo-2] => (item=vlmalo-1) 
+skipping: [vlmalo-1] => (item=vlmalo-3) 
+skipping: [vlmalo-1] => (item=vlmalo-2) 
+skipping: [vlmalo-1] => (item=vlmalo-1) 
+changed: [vlmalo-3] => (item=vlmalo-3)
+changed: [vlmalo-3] => (item=vlmalo-2)
+changed: [vlmalo-3] => (item=vlmalo-1)
+
+PLAY [resolv] ******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-2]
+ok: [vlmalo-1]
+ok: [vlmalo-3]
+
+TASK [resolv : Alter resolv conf] **********************************************
+--- before: /etc/resolv.conf
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp8vod_xs1/resolv.conf.j2
+@@ -1,19 +1,3 @@
+-# This file is managed by man:systemd-resolved(8). Do not edit.
+-#
+-# This is a dynamic resolv.conf file for connecting local clients to the
+-# internal DNS stub resolver of systemd-resolved. This file lists all
+-# configured search domains.
+-#
+-# Run "resolvectl status" to see details about the uplink DNS servers
+-# currently in use.
+-#
+-# Third party programs must not access this file directly, but only through the
+-# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
+-# replace this symlink by a static file or a different symlink.
+-#
+-# See man:systemd-resolved.service(8) for details about the supported modes of
+-# operation for /etc/resolv.conf.
+-
+-nameserver 127.0.0.53
+-options edns0 trust-ad
+-search openstacklocal
++nameserver 192.168.42.193
++nameserver 192.168.42.180
++search talkmate.it
+
+changed: [vlmalo-2]
+--- before: /etc/resolv.conf
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp96bdcoru/resolv.conf.j2
+@@ -1,19 +1,3 @@
+-# This file is managed by man:systemd-resolved(8). Do not edit.
+-#
+-# This is a dynamic resolv.conf file for connecting local clients to the
+-# internal DNS stub resolver of systemd-resolved. This file lists all
+-# configured search domains.
+-#
+-# Run "resolvectl status" to see details about the uplink DNS servers
+-# currently in use.
+-#
+-# Third party programs must not access this file directly, but only through the
+-# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
+-# replace this symlink by a static file or a different symlink.
+-#
+-# See man:systemd-resolved.service(8) for details about the supported modes of
+-# operation for /etc/resolv.conf.
+-
+-nameserver 127.0.0.53
+-options edns0 trust-ad
+-search openstacklocal
++nameserver 192.168.42.193
++nameserver 192.168.42.180
++search talkmate.it
+
+changed: [vlmalo-1]
+--- before: /etc/resolv.conf
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpilb40c4x/resolv.conf.j2
+@@ -1,19 +1,3 @@
+-# This file is managed by man:systemd-resolved(8). Do not edit.
+-#
+-# This is a dynamic resolv.conf file for connecting local clients to the
+-# internal DNS stub resolver of systemd-resolved. This file lists all
+-# configured search domains.
+-#
+-# Run "resolvectl status" to see details about the uplink DNS servers
+-# currently in use.
+-#
+-# Third party programs must not access this file directly, but only through the
+-# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
+-# replace this symlink by a static file or a different symlink.
+-#
+-# See man:systemd-resolved.service(8) for details about the supported modes of
+-# operation for /etc/resolv.conf.
+-
+-nameserver 127.0.0.53
+-options edns0 trust-ad
+-search openstacklocal
++nameserver 192.168.42.193
++nameserver 192.168.42.180
++search talkmate.it
+
+changed: [vlmalo-3]
+
+PLAY [prometheus] **************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-3]
+
+TASK [prometheus : Install prometheus] *****************************************
+The following additional packages will be installed:
+  fonts-glyphicons-halflings javascript-common libc-ares2 libjs-bootstrap
+  libjs-bootstrap4 libjs-d3 libjs-eonasdan-bootstrap-datetimepicker
+  libjs-jquery libjs-jquery-hotkeys libjs-moment libjs-moment-timezone
+  libjs-mustache libjs-popper.js libjs-rickshaw libnode64 node-jquery nodejs
+  nodejs-doc
+Suggested packages:
+  apache2 | lighttpd | httpd npm
+The following NEW packages will be installed:
+  fonts-glyphicons-halflings javascript-common libc-ares2 libjs-bootstrap
+  libjs-bootstrap4 libjs-d3 libjs-eonasdan-bootstrap-datetimepicker
+  libjs-jquery libjs-jquery-hotkeys libjs-moment libjs-moment-timezone
+  libjs-mustache libjs-popper.js libjs-rickshaw libnode64 node-jquery nodejs
+  nodejs-doc prometheus
+0 upgraded, 19 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-3]
+
+TASK [prometheus : copy static config] *****************************************
+--- before: /etc/prometheus/prometheus.yml
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpsb1d7tt6/prometheus.yml.j2
+@@ -1,44 +1,55 @@
+-# Sample config for Prometheus.
++# https://prometheus.io
+ 
+ global:
+-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+-  # scrape_timeout is set to the global default (10s).
++  scrape_interval: 15s
+ 
+-  # Attach these labels to any time series or alerts when communicating with
+-  # external systems (federation, remote storage, Alertmanager).
+-  external_labels:
+-      monitor: 'example'
+-
+-# Alertmanager configuration
+-alerting:
+-  alertmanagers:
+-  - static_configs:
+-    - targets: ['localhost:9093']
+-
+-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+-rule_files:
+-  # - "first_rules.yml"
+-  # - "second_rules.yml"
+-
+-# A scrape configuration containing exactly one endpoint to scrape:
+-# Here it's Prometheus itself.
+ scrape_configs:
+-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+   - job_name: 'prometheus'
+-
+-    # Override the global default and scrape targets from this job every 5 seconds.
+-    scrape_interval: 5s
+-    scrape_timeout: 5s
+-
+-    # metrics_path defaults to '/metrics'
+-    # scheme defaults to 'http'.
+-
+     static_configs:
+       - targets: ['localhost:9090']
++    metrics_path: /prometheus/metrics
+ 
+-  - job_name: node
+-    # If prometheus-node-exporter is installed, grab stats about the local
+-    # machine by default.
++  - job_name: 'linux'
+     static_configs:
+-      - targets: ['localhost:9100']
++      - targets:
++          - vlmalo-2:9100
++          - vlmalo-1:9100
++          - vlmalo-3:9100
++
++
++  - job_name: 'bind'
++    static_configs:
++      - targets:
++                - vlmalo-3:9119
++                - vlmalo-2:9119
++                - vlmalo-1:9119
++        
++  - job_name: 'nginx'
++    static_configs:
++      - targets:
++                - vlmalo-1:9113
++                - vlmalo-3:9113
++        
++  - job_name: 'mysql'
++    static_configs:
++      - targets:
++                - vlmalo-2:9104
++                - vlmalo-1:9104
++        
++  - job_name: 'influx'
++    static_configs:
++      - targets:
++                - vlmalo-3:9424
++        
++  - job_name: haproxy
++    static_configs:
++      - targets:
++            - vlmalo-1:9101
++            - vlmalo-2:9101
++      
++  - job_name: keepalived
++    static_configs:
++      - targets:
++            - vlmalo-1:9165
++            - vlmalo-2:9165
++      
+
+changed: [vlmalo-3]
+
+TASK [prometheus : add conf file to /etc/default/prometheus] *******************
+--- before: /etc/default/prometheus
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp5_r78k98/prometheus.j2
+@@ -1,57 +1 @@
+-# Set the command-line arguments to pass to the server.
+-ARGS=""
+-
+-# Prometheus supports the following options:
+-#  --config.file="/etc/prometheus/prometheus.yml"
+-#                             Prometheus configuration file path.
+-#  --web.listen-address="0.0.0.0:9090"
+-#                             Address to listen on for UI, API, and telemetry.
+-#  --web.read-timeout=5m      Maximum duration before timing out read of the
+-#                             request, and closing idle connections.
+-#  --web.max-connections=512  Maximum number of simultaneous connections.
+-#  --web.external-url=<URL>   The URL under which Prometheus is externally
+-#                             reachable (for example, if Prometheus is served
+-#                             via a reverse proxy). Used for generating
+-#                             relative and absolute links back to Prometheus
+-#                             itself. If the URL has a path portion, it will
+-#                             be used to prefix all HTTP endpoints served by
+-#                             Prometheus. If omitted, relevant URL components
+-#                             will be derived automatically.
+-#  --web.route-prefix=<path>  Prefix for the internal routes of web endpoints.
+-#                             Defaults to path of --web.external-url.
+-#  --web.local-assets="/usr/share/prometheus/web/"
+-#                             Path to static asset/templates directory.
+-#  --web.user-assets=<path>   Path to static asset directory, available at
+-#                             /user.
+-#  --web.enable-lifecycle     Enable shutdown and reload via HTTP request.
+-#  --web.enable-admin-api     Enables API endpoints for admin control actions.
+-#  --web.console.templates="/etc/prometheus/consoles"
+-#                             Path to the console template directory,
+-#                             available at /consoles.
+-#  --web.console.libraries="/etc/prometheus/console_libraries"
+-#                             Path to the console library directory.
+-#  --storage.tsdb.path="/var/lib/prometheus/metrics2/"
+-#                             Base path for metrics storage.
+-#  --storage.tsdb.min-block-duration=2h
+-#                             Minimum duration of a data block before being
+-#                             persisted.
+-#  --storage.tsdb.max-block-duration=<duration>
+-#                             Maximum duration compacted blocks may span.
+-#                             (Defaults to 10% of the retention period)
+-#  --storage.tsdb.retention=15d
+-#                             How long to retain samples in the storage.
+-#  --storage.tsdb.use-lockfile
+-#                             Create a lockfile in data directory.
+-#  --alertmanager.notification-queue-capacity=10000
+-#                             The capacity of the queue for pending alert
+-#                             manager notifications.
+-#  --alertmanager.timeout=10s
+-#                             Timeout for sending alerts to Alertmanager.
+-#  --query.lookback-delta=5m  The delta difference allowed for retrieving
+-#                             metrics during expression evaluations.
+-#  --query.timeout=2m         Maximum time a query may take before being
+-#                             aborted.
+-#  --query.max-concurrency=20
+-#                             Maximum number of queries executed concurrently.
+-#  --log.level=info           Only log messages with the given severity or
+-#                             above. One of: [debug, info, warn, error]
++ARGS=--web.external-url=http://193.40.156.67:2680/prometheus
+
+changed: [vlmalo-3]
+
+TASK [prometheus : start prometheus service] ***********************************
+ok: [vlmalo-3]
+
+TASK [prometheus : add cname records] ******************************************
+changed: [vlmalo-3] => (item=vlmalo-3)
+
+RUNNING HANDLER [prometheus : restart prometheus] ******************************
+changed: [vlmalo-3]
+
+PLAY [Database server] *********************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-1]
+ok: [vlmalo-2]
+
+TASK [mysql : Copy .my.cnf template to conf path] ******************************
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+TASK [mysql : Copy my.cnf to home backup] **************************************
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+TASK [mysql : Install MySQL server] ********************************************
+The following additional packages will be installed:
+  libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.1-7
+  libevent-pthreads-2.1-7 libfcgi-perl libhtml-parser-perl libhtml-tagset-perl
+  libhtml-template-perl libhttp-date-perl libhttp-message-perl libio-html-perl
+  liblwp-mediatypes-perl libmecab2 liburi-perl mecab-ipadic mecab-ipadic-utf8
+  mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common
+  mysql-server-8.0 mysql-server-core-8.0
+Suggested packages:
+  libdata-dump-perl libipc-sharedcache-perl libwww-perl mailx tinyca
+The following NEW packages will be installed:
+  libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.1-7
+  libevent-pthreads-2.1-7 libfcgi-perl libhtml-parser-perl libhtml-tagset-perl
+  libhtml-template-perl libhttp-date-perl libhttp-message-perl libio-html-perl
+  liblwp-mediatypes-perl libmecab2 liburi-perl mecab-ipadic mecab-ipadic-utf8
+  mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
+  mysql-server-8.0 mysql-server-core-8.0
+0 upgraded, 24 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-2]
+The following additional packages will be installed:
+  libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.1-7
+  libevent-pthreads-2.1-7 libfcgi-perl libhtml-parser-perl libhtml-tagset-perl
+  libhtml-template-perl libhttp-date-perl libhttp-message-perl libio-html-perl
+  liblwp-mediatypes-perl libmecab2 liburi-perl mecab-ipadic mecab-ipadic-utf8
+  mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common
+  mysql-server-8.0 mysql-server-core-8.0
+Suggested packages:
+  libdata-dump-perl libipc-sharedcache-perl libwww-perl mailx tinyca
+The following NEW packages will be installed:
+  libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.1-7
+  libevent-pthreads-2.1-7 libfcgi-perl libhtml-parser-perl libhtml-tagset-perl
+  libhtml-template-perl libhttp-date-perl libhttp-message-perl libio-html-perl
+  liblwp-mediatypes-perl libmecab2 liburi-perl mecab-ipadic mecab-ipadic-utf8
+  mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
+  mysql-server-8.0 mysql-server-core-8.0
+0 upgraded, 24 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+
+TASK [mysql : Insatll py3 mysql lib] *******************************************
+Suggested packages:
+  python-pymysql-doc
+The following NEW packages will be installed:
+  python3-pymysql
+0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-2]
+Suggested packages:
+  python-pymysql-doc
+The following NEW packages will be installed:
+  python3-pymysql
+0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+
+TASK [mysql : Ensure that MySQL service is started] ****************************
+ok: [vlmalo-2]
+ok: [vlmalo-1]
+
+TASK [mysql : Copy MySQL conf] *************************************************
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp3d83yz2h/override.cnf.j2
+@@ -0,0 +1,8 @@
++[mysqld]
++bind-address = 0.0.0.0
++log-bin = /var/log/mysql/mysql-bin.log
++relay-log = /var/log/mysql/mysql-relay.log
++replicate-do-db = agama
++server-id = 180
++
++
+
+changed: [vlmalo-1]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp8z9c5ns7/override.cnf.j2
+@@ -0,0 +1,8 @@
++[mysqld]
++bind-address = 0.0.0.0
++log-bin = /var/log/mysql/mysql-bin.log
++relay-log = /var/log/mysql/mysql-relay.log
++replicate-do-db = agama
++server-id = 193
++
++
+
+changed: [vlmalo-2]
+
+TASK [mysql : MySQL database] **************************************************
+changed: [vlmalo-2]
+changed: [vlmalo-1]
+
+TASK [mysql : MySQL user] ******************************************************
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+TASK [mysql : Install MySQL Exporter] ******************************************
+The following additional packages will be installed:
+  daemon
+The following NEW packages will be installed:
+  daemon prometheus-mysqld-exporter
+0 upgraded, 2 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-2]
+The following additional packages will be installed:
+  daemon
+The following NEW packages will be installed:
+  daemon prometheus-mysqld-exporter
+0 upgraded, 2 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+
+TASK [mysql : update prometheus MySQL exporter] ********************************
+--- before: /etc/default/prometheus-mysqld-exporter
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpjalwy879/prometheus-mysqld-exporter.j2
+@@ -1,120 +1 @@
+-# By default the connection string will be read from
+-# $HOME/my.cnf or from the file specified with the -config.my-cnf parameter.
+-
+-# To set a connection string from the environment instead, uncomment one of the
+-# following lines.
+-
+-# Using UNIX domain sockets and authentication:
+-# DATA_SOURCE_NAME="prometheus:nopassword@unix(/run/mysqld/mysqld.sock)/"
+-
+-# Using a TCP connection and password authentication:
+-# DATA_SOURCE_NAME="login:password@(hostname:port)/dbname"
+-
+-# Note the user must be granted enough privileges for the exporter to run.
+-# Example to create a user to connect with the UNIX socket:
+-#
+-#  CREATE USER IF NOT EXISTS 'prometheus'@'localhost' IDENTIFIED VIA unix_socket;
+-#  GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'prometheus'@'localhost';
+-
+-# Set the command-line arguments to pass to the exporter.
+-# ARGS='-config.my-cnf /etc/mysql/debian.cnf'
+-
+-# Usage of prometheus-mysqld-exporter:
+-#   -collect.auto_increment.columns
+-#     	Collect auto_increment columns and max values from information_schema
+-#  --exporter.lock_wait_timeout=2
+-#       Set a lock_wait_timeout on the connection to avoid long metadata
+-#       locking.
+-#  --exporter.log_slow_filter
+-#       Add a log_slow_filter to avoid slow query logging of scrapes. NOTE: Not
+-#       supported by Oracle MySQL.
+-#  --collect.heartbeat.database="heartbeat"
+-#       Database from where to collect heartbeat data
+-#  --collect.heartbeat.table="heartbeat"
+-#       Table from where to collect heartbeat data
+-#  --collect.info_schema.processlist.min_time=0
+-#       Minimum time a thread must be in each state to be counted
+-#  --collect.info_schema.tables.databases="*"
+-#       The list of databases to collect table stats for, or '*' for all
+-#  --collect.perf_schema.eventsstatements.limit=250
+-#       Limit the number of events statements digests by response time
+-#  --collect.perf_schema.eventsstatements.timelimit=86400
+-#       Limit how old the 'last_seen' events statements can be, in seconds
+-#  --collect.perf_schema.eventsstatements.digest_text_limit=120
+-#       Maximum length of the normalized statement text
+-#  --collect.perf_schema.file_instances.filter=".*"
+-#       RegEx file_name filter for performance_schema.file_summary_by_instance
+-#  --collect.perf_schema.file_instances.remove_prefix="/var/lib/mysql/"
+-#       Remove path prefix in performance_schema.file_summary_by_instance
+-#  --web.listen-address=":9104"
+-#       Address to listen on for web interface and telemetry.
+-#  --web.telemetry-path="/metrics"
+-#       Path under which to expose metrics.
+-#  --config.my-cnf="$HOME/.my.cnf"
+-#       Path to .my.cnf file to read MySQL credentials from.
+-#  --collect.global_variables
+-#       Collect from SHOW GLOBAL VARIABLES
+-#  --collect.slave_status
+-#       Collect from SHOW SLAVE STATUS
+-#  --collect.info_schema.processlist
+-#       Collect current thread state counts from the
+-#       information_schema.processlist
+-#  --collect.info_schema.tables
+-#       Collect metrics from information_schema.tables
+-#  --collect.info_schema.innodb_tablespaces
+-#       Collect metrics from information_schema.innodb_sys_tablespaces
+-#  --collect.info_schema.innodb_metrics
+-#       Collect metrics from information_schema.innodb_metrics
+-#  --collect.auto_increment.columns
+-#       Collect auto_increment columns and max values from information_schema
+-#  --collect.global_status
+-#       Collect from SHOW GLOBAL STATUS
+-#  --collect.perf_schema.tableiowaits
+-#       Collect metrics from performance_schema.table_io_waits_summary_by_table
+-#  --collect.perf_schema.indexiowaits
+-#       Collect metrics from
+-#       performance_schema.table_io_waits_summary_by_index_usage
+-#  --collect.perf_schema.tablelocks
+-#       Collect metrics from
+-#       performance_schema.table_lock_waits_summary_by_table
+-#  --collect.perf_schema.eventsstatements
+-#       Collect metrics from
+-#       performance_schema.events_statements_summary_by_digest
+-#  --collect.perf_schema.eventswaits
+-#       Collect metrics from
+-#       performance_schema.events_waits_summary_global_by_event_name
+-#  --collect.perf_schema.file_events
+-#       Collect metrics from performance_schema.file_summary_by_event_name
+-#  --collect.perf_schema.file_instances
+-#       Collect metrics from performance_schema.file_summary_by_instance
+-#  --collect.binlog_size
+-#       Collect the current size of all registered binlog files
+-#  --collect.info_schema.userstats
+-#       If running with userstat=1, set to true to collect user statistics
+-#  --collect.info_schema.clientstats
+-#       If running with userstat=1, set to true to collect client statistics
+-#  --collect.info_schema.tablestats
+-#       If running with userstat=1, set to true to collect table statistics
+-#  --collect.info_schema.innodb_cmp
+-#       Collect metrics from information_schema.innodb_cmp
+-#  --collect.info_schema.innodb_cmpmem
+-#       Collect metrics from information_schema.innodb_cmpmem
+-#  --collect.info_schema.query_response_time
+-#       Collect query response time distribution if query_response_time_stats
+-#       is ON.
+-#  --collect.engine_tokudb_status
+-#       Collect from SHOW ENGINE TOKUDB STATUS
+-#  --collect.perf_schema.replication_group_member_stats
+-#       Collect metrics from performance_schema.replication_group_member_stats
+-#  --collect.heartbeat
+-#       Collect from heartbeat
+-#  --collect.slave_hosts
+-#       Scrape information from 'SHOW SLAVE HOSTS'
+-#  --collect.engine_innodb_status
+-#       Collect from SHOW ENGINE INNODB STATUS
+-#  --log.level="info"
+-#       Only log messages with the given severity or above. Valid levels:
+-#       [debug, info, warn, error, fatal]
+-#  --log.format="logger:stderr"
+-#       Set the log target and format. Example:
+-#       "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
++ARGS="--collect.slave_status"
+
+changed: [vlmalo-1]
+--- before: /etc/default/prometheus-mysqld-exporter
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp58szpz05/prometheus-mysqld-exporter.j2
+@@ -1,120 +1 @@
+-# By default the connection string will be read from
+-# $HOME/my.cnf or from the file specified with the -config.my-cnf parameter.
+-
+-# To set a connection string from the environment instead, uncomment one of the
+-# following lines.
+-
+-# Using UNIX domain sockets and authentication:
+-# DATA_SOURCE_NAME="prometheus:nopassword@unix(/run/mysqld/mysqld.sock)/"
+-
+-# Using a TCP connection and password authentication:
+-# DATA_SOURCE_NAME="login:password@(hostname:port)/dbname"
+-
+-# Note the user must be granted enough privileges for the exporter to run.
+-# Example to create a user to connect with the UNIX socket:
+-#
+-#  CREATE USER IF NOT EXISTS 'prometheus'@'localhost' IDENTIFIED VIA unix_socket;
+-#  GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'prometheus'@'localhost';
+-
+-# Set the command-line arguments to pass to the exporter.
+-# ARGS='-config.my-cnf /etc/mysql/debian.cnf'
+-
+-# Usage of prometheus-mysqld-exporter:
+-#   -collect.auto_increment.columns
+-#     	Collect auto_increment columns and max values from information_schema
+-#  --exporter.lock_wait_timeout=2
+-#       Set a lock_wait_timeout on the connection to avoid long metadata
+-#       locking.
+-#  --exporter.log_slow_filter
+-#       Add a log_slow_filter to avoid slow query logging of scrapes. NOTE: Not
+-#       supported by Oracle MySQL.
+-#  --collect.heartbeat.database="heartbeat"
+-#       Database from where to collect heartbeat data
+-#  --collect.heartbeat.table="heartbeat"
+-#       Table from where to collect heartbeat data
+-#  --collect.info_schema.processlist.min_time=0
+-#       Minimum time a thread must be in each state to be counted
+-#  --collect.info_schema.tables.databases="*"
+-#       The list of databases to collect table stats for, or '*' for all
+-#  --collect.perf_schema.eventsstatements.limit=250
+-#       Limit the number of events statements digests by response time
+-#  --collect.perf_schema.eventsstatements.timelimit=86400
+-#       Limit how old the 'last_seen' events statements can be, in seconds
+-#  --collect.perf_schema.eventsstatements.digest_text_limit=120
+-#       Maximum length of the normalized statement text
+-#  --collect.perf_schema.file_instances.filter=".*"
+-#       RegEx file_name filter for performance_schema.file_summary_by_instance
+-#  --collect.perf_schema.file_instances.remove_prefix="/var/lib/mysql/"
+-#       Remove path prefix in performance_schema.file_summary_by_instance
+-#  --web.listen-address=":9104"
+-#       Address to listen on for web interface and telemetry.
+-#  --web.telemetry-path="/metrics"
+-#       Path under which to expose metrics.
+-#  --config.my-cnf="$HOME/.my.cnf"
+-#       Path to .my.cnf file to read MySQL credentials from.
+-#  --collect.global_variables
+-#       Collect from SHOW GLOBAL VARIABLES
+-#  --collect.slave_status
+-#       Collect from SHOW SLAVE STATUS
+-#  --collect.info_schema.processlist
+-#       Collect current thread state counts from the
+-#       information_schema.processlist
+-#  --collect.info_schema.tables
+-#       Collect metrics from information_schema.tables
+-#  --collect.info_schema.innodb_tablespaces
+-#       Collect metrics from information_schema.innodb_sys_tablespaces
+-#  --collect.info_schema.innodb_metrics
+-#       Collect metrics from information_schema.innodb_metrics
+-#  --collect.auto_increment.columns
+-#       Collect auto_increment columns and max values from information_schema
+-#  --collect.global_status
+-#       Collect from SHOW GLOBAL STATUS
+-#  --collect.perf_schema.tableiowaits
+-#       Collect metrics from performance_schema.table_io_waits_summary_by_table
+-#  --collect.perf_schema.indexiowaits
+-#       Collect metrics from
+-#       performance_schema.table_io_waits_summary_by_index_usage
+-#  --collect.perf_schema.tablelocks
+-#       Collect metrics from
+-#       performance_schema.table_lock_waits_summary_by_table
+-#  --collect.perf_schema.eventsstatements
+-#       Collect metrics from
+-#       performance_schema.events_statements_summary_by_digest
+-#  --collect.perf_schema.eventswaits
+-#       Collect metrics from
+-#       performance_schema.events_waits_summary_global_by_event_name
+-#  --collect.perf_schema.file_events
+-#       Collect metrics from performance_schema.file_summary_by_event_name
+-#  --collect.perf_schema.file_instances
+-#       Collect metrics from performance_schema.file_summary_by_instance
+-#  --collect.binlog_size
+-#       Collect the current size of all registered binlog files
+-#  --collect.info_schema.userstats
+-#       If running with userstat=1, set to true to collect user statistics
+-#  --collect.info_schema.clientstats
+-#       If running with userstat=1, set to true to collect client statistics
+-#  --collect.info_schema.tablestats
+-#       If running with userstat=1, set to true to collect table statistics
+-#  --collect.info_schema.innodb_cmp
+-#       Collect metrics from information_schema.innodb_cmp
+-#  --collect.info_schema.innodb_cmpmem
+-#       Collect metrics from information_schema.innodb_cmpmem
+-#  --collect.info_schema.query_response_time
+-#       Collect query response time distribution if query_response_time_stats
+-#       is ON.
+-#  --collect.engine_tokudb_status
+-#       Collect from SHOW ENGINE TOKUDB STATUS
+-#  --collect.perf_schema.replication_group_member_stats
+-#       Collect metrics from performance_schema.replication_group_member_stats
+-#  --collect.heartbeat
+-#       Collect from heartbeat
+-#  --collect.slave_hosts
+-#       Scrape information from 'SHOW SLAVE HOSTS'
+-#  --collect.engine_innodb_status
+-#       Collect from SHOW ENGINE INNODB STATUS
+-#  --log.level="info"
+-#       Only log messages with the given severity or above. Valid levels:
+-#       [debug, info, warn, error, fatal]
+-#  --log.format="logger:stderr"
+-#       Set the log target and format. Example:
+-#       "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
++ARGS="--collect.slave_status"
+
+changed: [vlmalo-2]
+
+TASK [mysql : Create mysql_exporter user] **************************************
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+TASK [mysql : Create folder for mysql backups] *********************************
+--- before
++++ after
+@@ -1,7 +1,7 @@
+ {
+-    "group": 0,
+-    "mode": "0755",
+-    "owner": 0,
++    "group": 34,
++    "mode": "0700",
++    "owner": 34,
+     "path": "/home/backup/mysql",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-2]
+--- before
++++ after
+@@ -1,7 +1,7 @@
+ {
+-    "group": 0,
+-    "mode": "0755",
+-    "owner": 0,
++    "group": 34,
++    "mode": "0700",
++    "owner": 34,
+     "path": "/home/backup/mysql",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-1]
+
+TASK [mysql : Create backup user] **********************************************
+changed: [vlmalo-2]
+changed: [vlmalo-1]
+
+TASK [mysql : Upload crontab for agama backup] *********************************
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpexs45js2/mysql-backup
+@@ -0,0 +1,3 @@
++30 22 * * *  backup  mysqldump agama > /home/backup/mysql/agama.sql
++45 22 * * *  backup  duplicity --no-encryption full /home/backup/mysql/ rsync://vlmalo@backup.talkmate.it/mysql
++45 22 * * 1-6  backup  duplicity --no-encryption incremental /home/backup/mysql/ rsync://vlmalo@backup.talkmate.it/mysql
+
+changed: [vlmalo-1]
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpn1tt5xf6/mysql-backup
+@@ -0,0 +1 @@
++
+
+changed: [vlmalo-2]
+
+TASK [mysql : create replication user] *****************************************
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+TASK [mysql : MySQL read only mode] ********************************************
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+TASK [mysql : add cname records] ***********************************************
+changed: [vlmalo-2] => (item=vlmalo-3)
+changed: [vlmalo-1] => (item=vlmalo-3)
+
+RUNNING HANDLER [mysql : Restart MySQL Service] ********************************
+changed: [vlmalo-2]
+changed: [vlmalo-1]
+
+RUNNING HANDLER [mysql : restart mysqld exporter] ******************************
+changed: [vlmalo-1]
+changed: [vlmalo-2]
+
+RUNNING HANDLER [mysql : Reset MySQL source] ***********************************
+skipping: [vlmalo-1] => (item=stopreplica) 
+skipping: [vlmalo-1] => (item=resetprimary) 
+ok: [vlmalo-2] => (item=stopreplica)
+changed: [vlmalo-2] => (item=resetprimary)
+
+RUNNING HANDLER [mysql : Reset MySQL replica] **********************************
+skipping: [vlmalo-2] => (item=None) 
+skipping: [vlmalo-2] => (item=None) 
+skipping: [vlmalo-2] => (item=None) 
+skipping: [vlmalo-2] => (item=None) 
+skipping: [vlmalo-2]
+ok: [vlmalo-1] => (item=None)
+changed: [vlmalo-1] => (item=None)
+changed: [vlmalo-1] => (item=None)
+changed: [vlmalo-1] => (item=None)
+changed: [vlmalo-1]
+
+PLAY [Docker] ******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-1]
+ok: [vlmalo-2]
+ok: [vlmalo-3]
+
+TASK [docker : Install docker] *************************************************
+The following additional packages will be installed:
+  bridge-utils containerd dnsmasq-base libidn11 pigz runc ubuntu-fan
+Suggested packages:
+  ifupdown aufs-tools cgroupfs-mount | cgroup-lite debootstrap docker-doc
+  rinse zfs-fuse | zfsutils
+The following NEW packages will be installed:
+  bridge-utils containerd dnsmasq-base docker.io libidn11 pigz runc ubuntu-fan
+0 upgraded, 8 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-2]
+The following additional packages will be installed:
+  bridge-utils containerd dnsmasq-base libidn11 pigz runc ubuntu-fan
+Suggested packages:
+  ifupdown aufs-tools cgroupfs-mount | cgroup-lite debootstrap docker-doc
+  rinse zfs-fuse | zfsutils
+The following NEW packages will be installed:
+  bridge-utils containerd dnsmasq-base docker.io libidn11 pigz runc ubuntu-fan
+0 upgraded, 8 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+The following additional packages will be installed:
+  bridge-utils containerd dnsmasq-base libidn11 pigz runc ubuntu-fan
+Suggested packages:
+  ifupdown aufs-tools cgroupfs-mount | cgroup-lite debootstrap docker-doc
+  rinse zfs-fuse | zfsutils
+The following NEW packages will be installed:
+  bridge-utils containerd dnsmasq-base docker.io libidn11 pigz runc ubuntu-fan
+0 upgraded, 8 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-3]
+
+TASK [docker : Install pyhon3-docker] ******************************************
+The following additional packages will be installed:
+  python3-websocket
+The following NEW packages will be installed:
+  python3-docker python3-websocket
+0 upgraded, 2 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-2]
+The following additional packages will be installed:
+  python3-websocket
+The following NEW packages will be installed:
+  python3-docker python3-websocket
+0 upgraded, 2 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-3]
+The following additional packages will be installed:
+  python3-websocket
+The following NEW packages will be installed:
+  python3-docker python3-websocket
+0 upgraded, 2 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+
+TASK [docker : Start docker] ***************************************************
+ok: [vlmalo-1]
+ok: [vlmalo-2]
+ok: [vlmalo-3]
+
+TASK [agama : Create /opt/agama] ***********************************************
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+     "path": "/opt/agama",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-2]
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+     "path": "/opt/agama",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-1]
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+     "path": "/opt/agama",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-3]
+
+TASK [agama : Downloading AGAMA] ***********************************************
+changed: [vlmalo-1] => (item=agama.py)
+changed: [vlmalo-3] => (item=agama.py)
+changed: [vlmalo-2] => (item=agama.py)
+changed: [vlmalo-3] => (item=Dockerfile)
+changed: [vlmalo-1] => (item=Dockerfile)
+changed: [vlmalo-2] => (item=Dockerfile)
+
+TASK [agama : Build the image] *************************************************
+changed: [vlmalo-2]
+changed: [vlmalo-3]
+changed: [vlmalo-1]
+
+TASK [agama : Agama two containers] ********************************************
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "exists": false,
+-    "running": false
++    "exists": true,
++    "running": true
+ }
+
+changed: [vlmalo-2] => (item=0)
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "exists": false,
+-    "running": false
++    "exists": true,
++    "running": true
+ }
+
+changed: [vlmalo-1] => (item=0)
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "exists": false,
+-    "running": false
++    "exists": true,
++    "running": true
+ }
+
+changed: [vlmalo-3] => (item=0)
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "exists": false,
+-    "running": false
++    "exists": true,
++    "running": true
+ }
+
+changed: [vlmalo-2] => (item=1)
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "exists": false,
+-    "running": false
++    "exists": true,
++    "running": true
+ }
+
+changed: [vlmalo-1] => (item=1)
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "exists": false,
+-    "running": false
++    "exists": true,
++    "running": true
+ }
+
+changed: [vlmalo-3] => (item=1)
+
+TASK [agama : add cname records] ***********************************************
+changed: [vlmalo-2] => (item=vlmalo-3)
+changed: [vlmalo-3] => (item=vlmalo-3)
+changed: [vlmalo-1] => (item=vlmalo-3)
+
+PLAY [web_servers] *************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-1]
+ok: [vlmalo-3]
+
+TASK [nginx : Install Nginx] ***************************************************
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
+  libwebp6 libxpm4 nginx-common nginx-core
+Suggested packages:
+  libgd-tools fcgiwrap nginx-doc ssl-cert
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
+  libwebp6 libxpm4 nginx nginx-common nginx-core
+0 upgraded, 17 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-3]
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
+  libwebp6 libxpm4 nginx-common nginx-core
+Suggested packages:
+  libgd-tools fcgiwrap nginx-doc ssl-cert
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
+  libwebp6 libxpm4 nginx nginx-common nginx-core
+0 upgraded, 17 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+
+TASK [nginx : Replace Ngnix def config] ****************************************
+--- before: /etc/nginx/sites-enabled/default
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpoad4ohgi/default.j2
+@@ -1,91 +1,21 @@
+-##
+-# You should look at the following URL's in order to grasp a solid understanding
+-# of Nginx configuration files in order to fully unleash the power of Nginx.
+-# https://www.nginx.com/resources/wiki/start/
+-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+-# https://wiki.debian.org/Nginx/DirectoryStructure
+-#
+-# In most cases, administrators will remove this file from sites-enabled/ and
+-# leave it as reference inside of sites-available where it will continue to be
+-# updated by the nginx packaging team.
+-#
+-# This file will automatically load configuration files provided by other
+-# applications, such as Drupal or Wordpress. These applications will be made
+-# available underneath a path with that package name, such as /drupal8.
+-#
+-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+-##
++server {
++        listen 80 default_server;
++        server_name _;
+ 
+-# Default server configuration
+-#
++        location / {
++                proxy_set_header Host $http_host;
++                proxy_pass http://localhost:8001;
++       }
++
++
++
++}
++     
+ server {
+-	listen 80 default_server;
+-	listen [::]:80 default_server;
++        listen 8080 default_server;
+ 
+-	# SSL configuration
+-	#
+-	# listen 443 ssl default_server;
+-	# listen [::]:443 ssl default_server;
+-	#
+-	# Note: You should disable gzip for SSL traffic.
+-	# See: https://bugs.debian.org/773332
+-	#
+-	# Read up on ssl_ciphers to ensure a secure configuration.
+-	# See: https://bugs.debian.org/765782
+-	#
+-	# Self signed certs generated by the ssl-cert package
+-	# Don't use them in a production server!
+-	#
+-	# include snippets/snakeoil.conf;
+-
+-	root /var/www/html;
+-
+-	# Add index.php to the list if you are using PHP
+-	index index.html index.htm index.nginx-debian.html;
+-
+-	server_name _;
+-
+-	location / {
+-		# First attempt to serve request as file, then
+-		# as directory, then fall back to displaying a 404.
+-		try_files $uri $uri/ =404;
++        location = /stub_status {
++		stub_status;
+ 	}
+ 
+-	# pass PHP scripts to FastCGI server
+-	#
+-	#location ~ \.php$ {
+-	#	include snippets/fastcgi-php.conf;
+-	#
+-	#	# With php-fpm (or other unix sockets):
+-	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+-	#	# With php-cgi (or other tcp sockets):
+-	#	fastcgi_pass 127.0.0.1:9000;
+-	#}
+-
+-	# deny access to .htaccess files, if Apache's document root
+-	# concurs with nginx's one
+-	#
+-	#location ~ /\.ht {
+-	#	deny all;
+-	#}
+ }
+-
+-
+-# Virtual Host configuration for example.com
+-#
+-# You can move that to a different file under sites-available/ and symlink that
+-# to sites-enabled/ to enable it.
+-#
+-#server {
+-#	listen 80;
+-#	listen [::]:80;
+-#
+-#	server_name example.com;
+-#
+-#	root /var/www/example.com;
+-#	index index.html;
+-#
+-#	location / {
+-#		try_files $uri $uri/ =404;
+-#	}
+-#}
+
+changed: [vlmalo-1]
+--- before: /etc/nginx/sites-enabled/default
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpoxik8rmx/default.j2
+@@ -1,91 +1,28 @@
+-##
+-# You should look at the following URL's in order to grasp a solid understanding
+-# of Nginx configuration files in order to fully unleash the power of Nginx.
+-# https://www.nginx.com/resources/wiki/start/
+-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+-# https://wiki.debian.org/Nginx/DirectoryStructure
+-#
+-# In most cases, administrators will remove this file from sites-enabled/ and
+-# leave it as reference inside of sites-available where it will continue to be
+-# updated by the nginx packaging team.
+-#
+-# This file will automatically load configuration files provided by other
+-# applications, such as Drupal or Wordpress. These applications will be made
+-# available underneath a path with that package name, such as /drupal8.
+-#
+-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+-##
++server {
++        listen 80 default_server;
++        server_name _;
+ 
+-# Default server configuration
+-#
++        location / {
++                proxy_set_header Host $http_host;
++                proxy_pass http://localhost:8001;
++       }
++
++        location /grafana {
++        proxy_set_header Host $http_host;
++        proxy_pass http://localhost:3001;
++        }
++
++
++        location /prometheus {
++	proxy_pass http://localhost:9090;
++        }
++}
++     
+ server {
+-	listen 80 default_server;
+-	listen [::]:80 default_server;
++        listen 8080 default_server;
+ 
+-	# SSL configuration
+-	#
+-	# listen 443 ssl default_server;
+-	# listen [::]:443 ssl default_server;
+-	#
+-	# Note: You should disable gzip for SSL traffic.
+-	# See: https://bugs.debian.org/773332
+-	#
+-	# Read up on ssl_ciphers to ensure a secure configuration.
+-	# See: https://bugs.debian.org/765782
+-	#
+-	# Self signed certs generated by the ssl-cert package
+-	# Don't use them in a production server!
+-	#
+-	# include snippets/snakeoil.conf;
+-
+-	root /var/www/html;
+-
+-	# Add index.php to the list if you are using PHP
+-	index index.html index.htm index.nginx-debian.html;
+-
+-	server_name _;
+-
+-	location / {
+-		# First attempt to serve request as file, then
+-		# as directory, then fall back to displaying a 404.
+-		try_files $uri $uri/ =404;
++        location = /stub_status {
++		stub_status;
+ 	}
+ 
+-	# pass PHP scripts to FastCGI server
+-	#
+-	#location ~ \.php$ {
+-	#	include snippets/fastcgi-php.conf;
+-	#
+-	#	# With php-fpm (or other unix sockets):
+-	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+-	#	# With php-cgi (or other tcp sockets):
+-	#	fastcgi_pass 127.0.0.1:9000;
+-	#}
+-
+-	# deny access to .htaccess files, if Apache's document root
+-	# concurs with nginx's one
+-	#
+-	#location ~ /\.ht {
+-	#	deny all;
+-	#}
+ }
+-
+-
+-# Virtual Host configuration for example.com
+-#
+-# You can move that to a different file under sites-available/ and symlink that
+-# to sites-enabled/ to enable it.
+-#
+-#server {
+-#	listen 80;
+-#	listen [::]:80;
+-#
+-#	server_name example.com;
+-#
+-#	root /var/www/example.com;
+-#	index index.html;
+-#
+-#	location / {
+-#		try_files $uri $uri/ =404;
+-#	}
+-#}
+
+changed: [vlmalo-3]
+
+TASK [nginx : Start Nginx service] *********************************************
+ok: [vlmalo-1]
+ok: [vlmalo-3]
+
+TASK [nginx : Ensure Nginx is running] *****************************************
+ok: [vlmalo-1]
+ok: [vlmalo-3]
+
+TASK [nginx : Install nginx exporter] ******************************************
+The following NEW packages will be installed:
+  prometheus-nginx-exporter
+0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-3]
+The following NEW packages will be installed:
+  prometheus-nginx-exporter
+0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-1]
+
+TASK [nginx : Start nginx exporter] ********************************************
+changed: [vlmalo-1]
+changed: [vlmalo-3]
+
+RUNNING HANDLER [nginx : Restart nginx] ****************************************
+changed: [vlmalo-1]
+changed: [vlmalo-3]
+
+RUNNING HANDLER [nginx : Restart prometheus-nginx-exporter] ********************
+changed: [vlmalo-3]
+changed: [vlmalo-1]
+
+PLAY [Grafana] *****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-3]
+
+TASK [grafana : Install grafana on docker] *************************************
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "exists": false,
+-    "running": false
++    "exists": true,
++    "running": true
+ }
+
+changed: [vlmalo-3]
+
+TASK [grafana : Create Grafana directories] ************************************
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+     "path": "/opt/grafana/provisioning/dashboards",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-3] => (item=dashboards)
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+     "path": "/opt/grafana/provisioning/datasources",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [vlmalo-3] => (item=datasources)
+
+TASK [grafana : grafana.ini file] **********************************************
+changed: [vlmalo-3]
+
+TASK [grafana : Add datasource file] *******************************************
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpn1xvd5jn/main_datasource.yaml.j2
+@@ -0,0 +1,28 @@
++# Configuration file version
++apiVersion: 1
++
++
++deleteDatasources:
++  - name: Prometheus
++# List of data sources to insert/update depending on what's
++# available in the database.
++datasources:
++  # <string, required> Sets the name you use to refer to
++  # the data source in panels and queries.
++  - name: Prometheus
++    # <string, required> Sets the data source type.
++    type: prometheus
++    uid: e758c7e9-0e62-4a76-b1eb-93a6f9237888
++    # <string, required> Sets the access mode, either
++    # proxy or direct (Server or Browser in the UI).
++    # Some data sources are incompatible with any setting
++    # but proxy (Server).
++    access: proxy
++    # <int> Sets the organization id. Defaults to orgId 1.
++    orgId: 1
++    # <string> Sets the data source's URL, including the
++    # port.
++    url: http://prometheus:9090/prometheus
++    #isDefault: true
++    version: 1
++    editable: false
+
+changed: [vlmalo-3] => (item=main_datasource.yaml)
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpke06n6j1/main_datasourceInfluxDB.yaml.j2
+@@ -0,0 +1,11 @@
++apiVersion: 1
++
++deleteDatasources:
++ - name: InfluxDB:latency
++
++datasources:
++ - name: InfluxDB:latency
++   type: influxdb
++   access: proxy
++   url: http://influxdb:8086
++   database: latency
+
+changed: [vlmalo-3] => (item=main_datasourceInfluxDB.yaml)
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmpa8uxn8w3/main_datasourceTelegraf.yaml.j2
+@@ -0,0 +1,13 @@
++apiVersion: 1
++
++deleteDatasources:
++ - name: InfluxDB:telegraf
++
++datasources:
++ - name: InfluxDB:telegraf
++   type: influxdb
++   url: http://influxdb:8086
++   isDefault: False
++   database: telegraf
++
++
+
+changed: [vlmalo-3] => (item=main_datasourceTelegraf.yaml)
+
+TASK [grafana : add dashboard file conf] ***************************************
+--- before
++++ after: /home/vlmalo/.ansible/tmp/ansible-local-15353of6ls0xk/tmp9ut_2m64/main_dashboard.yaml.j2
+@@ -0,0 +1,14 @@
++apiVersion: 1
++
++providers:
++  - name: 'provider'
++    orgId: 1
++    folder: ''
++    folderUid: ''
++    type: file
++    updateIntervalSeconds: 10
++    allowUiUpdates: false
++    options:
++      # <string, required> path to dashboard files on disk. Required when using the 'file' type
++      path: /etc/grafana/provisioning/dashboards/
++
+
+changed: [vlmalo-3]
+
+TASK [grafana : Copy dashboard json] *******************************************
+--- before
++++ after: /home/vlmalo/ica0002/roles/grafana/files/main.json
+@@ -0,0 +1,1220 @@
++{
++  "annotations": {
++    "list": [
++      {
++        "builtIn": 1,
++        "datasource": {
++          "type": "grafana",
++          "uid": "-- Grafana --"
++        },
++        "enable": true,
++        "hide": true,
++        "iconColor": "rgba(0, 211, 255, 1)",
++        "name": "Annotations & Alerts",
++        "type": "dashboard"
++      }
++    ]
++  },
++  "editable": true,
++  "fiscalYearStartMonth": 0,
++  "graphTooltip": 0,
++  "links": [],
++  "liveNow": false,
++  "panels": [
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "dark-green",
++                "value": 1
++              }
++            ]
++          },
++          "unit": "short"
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 3,
++        "x": 0,
++        "y": 0
++      },
++      "id": 15,
++      "options": {
++        "colorMode": "background",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "bind_up",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "bind9 status",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "palette-classic"
++          },
++          "custom": {
++            "axisBorderShow": false,
++            "axisCenteredZero": false,
++            "axisColorMode": "text",
++            "axisLabel": "",
++            "axisPlacement": "auto",
++            "barAlignment": 0,
++            "drawStyle": "line",
++            "fillOpacity": 0,
++            "gradientMode": "none",
++            "hideFrom": {
++              "legend": false,
++              "tooltip": false,
++              "viz": false
++            },
++            "insertNulls": false,
++            "lineInterpolation": "linear",
++            "lineWidth": 1,
++            "pointSize": 5,
++            "scaleDistribution": {
++              "type": "linear"
++            },
++            "showPoints": "auto",
++            "spanNulls": false,
++            "stacking": {
++              "group": "A",
++              "mode": "none"
++            },
++            "thresholdsStyle": {
++              "mode": "off"
++            }
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 5,
++        "x": 3,
++        "y": 0
++      },
++      "id": 2,
++      "options": {
++        "legend": {
++          "calcs": [],
++          "displayMode": "list",
++          "placement": "bottom",
++          "showLegend": true
++        },
++        "tooltip": {
++          "mode": "single",
++          "sort": "none"
++        }
++      },
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "rate(bind_resolver_queries_total[1m])",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "DNS queries",
++      "type": "timeseries"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "palette-classic"
++          },
++          "custom": {
++            "axisBorderShow": false,
++            "axisCenteredZero": false,
++            "axisColorMode": "text",
++            "axisLabel": "",
++            "axisPlacement": "auto",
++            "barAlignment": 0,
++            "drawStyle": "line",
++            "fillOpacity": 0,
++            "gradientMode": "none",
++            "hideFrom": {
++              "legend": false,
++              "tooltip": false,
++              "viz": false
++            },
++            "insertNulls": false,
++            "lineInterpolation": "linear",
++            "lineWidth": 1,
++            "pointSize": 5,
++            "scaleDistribution": {
++              "type": "linear"
++            },
++            "showPoints": "auto",
++            "spanNulls": false,
++            "stacking": {
++              "group": "A",
++              "mode": "none"
++            },
++            "thresholdsStyle": {
++              "mode": "off"
++            }
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 6,
++        "x": 9,
++        "y": 0
++      },
++      "id": 5,
++      "options": {
++        "legend": {
++          "calcs": [],
++          "displayMode": "list",
++          "placement": "bottom",
++          "showLegend": true
++        },
++        "tooltip": {
++          "mode": "single",
++          "sort": "none"
++        }
++      },
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "node_memory_MemFree_bytes/node_memory_MemTotal_bytes*100",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "Memory consumption",
++      "type": "timeseries"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [
++            {
++              "options": {
++                "1": {
++                  "index": 1,
++                  "text": "slave"
++                },
++                "2": {
++                  "index": 0,
++                  "text": "master"
++                }
++              },
++              "type": "value"
++            }
++          ],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "purple",
++                "value": 2
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 8,
++        "x": 16,
++        "y": 0
++      },
++      "id": 14,
++      "options": {
++        "colorMode": "background_solid",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "keepalived_vrrp_state",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "Keepalived vrrp state",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "dark-green",
++                "value": 1
++              }
++            ]
++          },
++          "unit": "short"
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 3,
++        "x": 0,
++        "y": 5
++      },
++      "id": 10,
++      "options": {
++        "colorMode": "background",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "mysql_up",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "mysql status",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "palette-classic"
++          },
++          "custom": {
++            "axisBorderShow": false,
++            "axisCenteredZero": false,
++            "axisColorMode": "text",
++            "axisLabel": "",
++            "axisPlacement": "auto",
++            "barAlignment": 0,
++            "drawStyle": "line",
++            "fillOpacity": 0,
++            "gradientMode": "none",
++            "hideFrom": {
++              "legend": false,
++              "tooltip": false,
++              "viz": false
++            },
++            "insertNulls": false,
++            "lineInterpolation": "linear",
++            "lineWidth": 1,
++            "pointSize": 5,
++            "scaleDistribution": {
++              "type": "linear"
++            },
++            "showPoints": "auto",
++            "spanNulls": false,
++            "stacking": {
++              "group": "A",
++              "mode": "none"
++            },
++            "thresholdsStyle": {
++              "mode": "off"
++            }
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 5,
++        "x": 3,
++        "y": 5
++      },
++      "id": 4,
++      "options": {
++        "legend": {
++          "calcs": [],
++          "displayMode": "list",
++          "placement": "bottom",
++          "showLegend": true
++        },
++        "tooltip": {
++          "mode": "single",
++          "sort": "none"
++        }
++      },
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "rate(mysql_global_status_commands_total{command=\"select\"}[1m])",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "MySQL selects",
++      "type": "timeseries"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "palette-classic"
++          },
++          "custom": {
++            "axisBorderShow": false,
++            "axisCenteredZero": false,
++            "axisColorMode": "text",
++            "axisLabel": "",
++            "axisPlacement": "auto",
++            "barAlignment": 0,
++            "drawStyle": "line",
++            "fillOpacity": 0,
++            "gradientMode": "none",
++            "hideFrom": {
++              "legend": false,
++              "tooltip": false,
++              "viz": false
++            },
++            "insertNulls": false,
++            "lineInterpolation": "linear",
++            "lineWidth": 1,
++            "pointSize": 5,
++            "scaleDistribution": {
++              "type": "linear"
++            },
++            "showPoints": "auto",
++            "spanNulls": false,
++            "stacking": {
++              "group": "A",
++              "mode": "none"
++            },
++            "thresholdsStyle": {
++              "mode": "off"
++            }
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 6,
++        "x": 9,
++        "y": 5
++      },
++      "id": 6,
++      "options": {
++        "legend": {
++          "calcs": [],
++          "displayMode": "list",
++          "placement": "bottom",
++          "showLegend": true
++        },
++        "tooltip": {
++          "mode": "single",
++          "sort": "none"
++        }
++      },
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "disableTextWrap": false,
++          "editorMode": "code",
++          "expr": "1-rate(node_cpu_seconds_total{mode=\"idle\"}[1m])",
++          "fullMetaSearch": false,
++          "includeNullMetadata": false,
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A",
++          "useBackend": false
++        }
++      ],
++      "title": "CPU load",
++      "type": "timeseries"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "dark-green",
++                "value": 1
++              }
++            ]
++          },
++          "unit": "short"
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 8,
++        "x": 16,
++        "y": 5
++      },
++      "id": 12,
++      "options": {
++        "colorMode": "background",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "disableTextWrap": false,
++          "editorMode": "code",
++          "expr": "haproxy_up",
++          "fullMetaSearch": false,
++          "includeNullMetadata": true,
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A",
++          "useBackend": false
++        }
++      ],
++      "title": "Haproxy status",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "dark-green",
++                "value": 1
++              }
++            ]
++          },
++          "unit": "short"
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 3,
++        "x": 0,
++        "y": 10
++      },
++      "id": 8,
++      "options": {
++        "colorMode": "background",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "disableTextWrap": false,
++          "editorMode": "code",
++          "expr": "influxdb_exporter_stats_query_success",
++          "fullMetaSearch": false,
++          "includeNullMetadata": true,
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A",
++          "useBackend": false
++        }
++      ],
++      "title": "InfluxDB status",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "palette-classic"
++          },
++          "custom": {
++            "axisBorderShow": false,
++            "axisCenteredZero": false,
++            "axisColorMode": "text",
++            "axisLabel": "",
++            "axisPlacement": "auto",
++            "barAlignment": 0,
++            "drawStyle": "line",
++            "fillOpacity": 0,
++            "gradientMode": "none",
++            "hideFrom": {
++              "legend": false,
++              "tooltip": false,
++              "viz": false
++            },
++            "insertNulls": false,
++            "lineInterpolation": "linear",
++            "lineWidth": 1,
++            "pointSize": 5,
++            "scaleDistribution": {
++              "type": "linear"
++            },
++            "showPoints": "auto",
++            "spanNulls": false,
++            "stacking": {
++              "group": "A",
++              "mode": "none"
++            },
++            "thresholdsStyle": {
++              "mode": "off"
++            }
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 5,
++        "x": 3,
++        "y": 10
++      },
++      "id": 1,
++      "options": {
++        "legend": {
++          "calcs": [],
++          "displayMode": "list",
++          "placement": "bottom",
++          "showLegend": true
++        },
++        "tooltip": {
++          "mode": "single",
++          "sort": "none"
++        }
++      },
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "100-rate(influxdb_write_write_ok[1m])",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "InfluxDB write rate ",
++      "type": "timeseries"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "dark-green",
++                "value": 1
++              }
++            ]
++          },
++          "unit": "short"
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 4,
++        "w": 8,
++        "x": 16,
++        "y": 10
++      },
++      "id": 13,
++      "options": {
++        "colorMode": "background",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "disableTextWrap": false,
++          "editorMode": "builder",
++          "expr": "haproxy_server_up{instance=\"vlmalo-1:9101\"}",
++          "fullMetaSearch": false,
++          "includeNullMetadata": true,
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A",
++          "useBackend": false
++        }
++      ],
++      "title": "docker haproxy status (vlmalo-1 exporter)",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "dark-green",
++                "value": 1
++              }
++            ]
++          },
++          "unit": "short"
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 4,
++        "w": 8,
++        "x": 16,
++        "y": 14
++      },
++      "id": 16,
++      "options": {
++        "colorMode": "background",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "disableTextWrap": false,
++          "editorMode": "builder",
++          "expr": "haproxy_server_up{instance=\"vlmalo-2:9101\"}",
++          "fullMetaSearch": false,
++          "includeNullMetadata": true,
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A",
++          "useBackend": false
++        }
++      ],
++      "title": "docker haproxy status (vlmalo-2 exporter)",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "dark-green",
++                "value": 1
++              }
++            ]
++          },
++          "unit": "short"
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 3,
++        "x": 0,
++        "y": 15
++      },
++      "id": 9,
++      "options": {
++        "colorMode": "background",
++        "graphMode": "none",
++        "justifyMode": "auto",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.3",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "nginx_up",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "nginx status",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "palette-classic"
++          },
++          "custom": {
++            "axisBorderShow": false,
++            "axisCenteredZero": false,
++            "axisColorMode": "text",
++            "axisLabel": "",
++            "axisPlacement": "auto",
++            "barAlignment": 0,
++            "drawStyle": "line",
++            "fillOpacity": 0,
++            "gradientMode": "none",
++            "hideFrom": {
++              "legend": false,
++              "tooltip": false,
++              "viz": false
++            },
++            "insertNulls": false,
++            "lineInterpolation": "linear",
++            "lineWidth": 1,
++            "pointSize": 5,
++            "scaleDistribution": {
++              "type": "linear"
++            },
++            "showPoints": "auto",
++            "spanNulls": false,
++            "stacking": {
++              "group": "A",
++              "mode": "none"
++            },
++            "thresholdsStyle": {
++              "mode": "off"
++            }
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 5,
++        "w": 5,
++        "x": 3,
++        "y": 15
++      },
++      "id": 3,
++      "options": {
++        "legend": {
++          "calcs": [],
++          "displayMode": "list",
++          "placement": "bottom",
++          "showLegend": true
++        },
++        "tooltip": {
++          "mode": "single",
++          "sort": "none"
++        }
++      },
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "disableTextWrap": false,
++          "editorMode": "builder",
++          "expr": "rate(nginx_http_requests_total[1m])",
++          "fullMetaSearch": false,
++          "includeNullMetadata": true,
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A",
++          "useBackend": false
++        }
++      ],
++      "title": "Nginx requests",
++      "type": "timeseries"
++    }
++  ],
++  "refresh": "5s",
++  "schemaVersion": 39,
++  "tags": [],
++  "templating": {
++    "list": []
++  },
++  "time": {
++    "from": "now-1h",
++    "to": "now"
++  },
++  "timepicker": {},
++  "timezone": "",
++  "title": "main",
++  "uid": "e2ddaab6-570a-4b30-ade1-1d4c35c3aae8",
++  "version": 1,
++  "weekStart": ""
++}
+
+changed: [vlmalo-3] => (item=main)
+--- before
++++ after: /home/vlmalo/ica0002/roles/grafana/files/mysql.json
+@@ -0,0 +1,609 @@
++{
++  "annotations": {
++    "list": [
++      {
++        "builtIn": 1,
++        "datasource": {
++          "type": "datasource",
++          "uid": "grafana"
++        },
++        "enable": true,
++        "hide": true,
++        "iconColor": "rgba(0, 211, 255, 1)",
++        "name": "Annotations & Alerts",
++        "target": {
++          "limit": 100,
++          "matchAny": false,
++          "tags": [],
++          "type": "dashboard"
++        },
++        "type": "dashboard"
++      }
++    ]
++  },
++  "editable": true,
++  "fiscalYearStartMonth": 0,
++  "graphTooltip": 0,
++  "id": 4,
++  "links": [],
++  "liveNow": false,
++  "panels": [
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [
++            {
++              "options": {
++                "0": {
++                  "index": 1,
++                  "text": "DOWN"
++                },
++                "1": {
++                  "index": 0,
++                  "text": "UP"
++                }
++              },
++              "type": "value"
++            }
++          ],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "red",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 0
++              },
++              {
++                "color": "green",
++                "value": 1
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 4,
++        "w": 24,
++        "x": 0,
++        "y": 0
++      },
++      "id": 2,
++      "options": {
++        "colorMode": "value",
++        "graphMode": "none",
++        "justifyMode": "center",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "text": {
++          "titleSize": 1,
++          "valueSize": 50
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.2",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "mysql_up",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "MySQL",
++      "transformations": [
++        {
++          "id": "renameByRegex",
++          "options": {
++            "regex": ":9104",
++            "renamePattern": ""
++          }
++        }
++      ],
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [
++            {
++              "options": {
++                "from": 1,
++                "result": {
++                  "index": 0
++                },
++                "to": 255
++              },
++              "type": "range"
++            },
++            {
++              "options": {
++                "match": "null",
++                "result": {
++                  "index": 1
++                }
++              },
++              "type": "special"
++            }
++          ],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "red",
++                "value": null
++              },
++              {
++                "color": "green",
++                "value": 1
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 4,
++        "w": 24,
++        "x": 0,
++        "y": 4
++      },
++      "id": 13,
++      "options": {
++        "colorMode": "value",
++        "graphMode": "none",
++        "justifyMode": "center",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "text": {
++          "titleSize": 0.1,
++          "valueSize": 50
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.2",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "mysql_global_variables_server_id",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "MySQL Server Id",
++      "transformations": [
++        {
++          "id": "renameByRegex",
++          "options": {
++            "regex": ":9104",
++            "renamePattern": ""
++          }
++        }
++      ],
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [
++            {
++              "options": {
++                "0": {
++                  "color": "orange",
++                  "index": 1,
++                  "text": "Read / Write"
++                },
++                "1": {
++                  "color": "blue",
++                  "index": 0,
++                  "text": "Read only"
++                }
++              },
++              "type": "value"
++            }
++          ],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "red",
++                "value": null
++              },
++              {
++                "color": "green",
++                "value": 1
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 4,
++        "w": 24,
++        "x": 0,
++        "y": 8
++      },
++      "id": 14,
++      "options": {
++        "colorMode": "value",
++        "graphMode": "none",
++        "justifyMode": "center",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "text": {
++          "titleSize": 0.1
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.2",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "mysql_global_variables_read_only",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "MySQL Mode",
++      "transformations": [
++        {
++          "id": "renameByRegex",
++          "options": {
++            "regex": ":9104",
++            "renamePattern": ""
++          }
++        }
++      ],
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [
++            {
++              "options": {
++                "0": {
++                  "color": "orange",
++                  "index": 0,
++                  "text": "Stopped"
++                },
++                "1": {
++                  "color": "blue",
++                  "index": 1,
++                  "text": "Running"
++                }
++              },
++              "type": "value"
++            }
++          ],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 4,
++        "w": 24,
++        "x": 0,
++        "y": 12
++      },
++      "id": 10,
++      "options": {
++        "colorMode": "value",
++        "graphMode": "none",
++        "justifyMode": "center",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "text": {
++          "titleSize": 0.1
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.2",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "mysql_slave_status_slave_io_running ",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "MySQL replica IO thread",
++      "transformations": [],
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "mappings": [
++            {
++              "options": {
++                "0": {
++                  "color": "orange",
++                  "index": 0,
++                  "text": "Stopped"
++                },
++                "1": {
++                  "color": "blue",
++                  "index": 1,
++                  "text": "Running"
++                }
++              },
++              "type": "value"
++            }
++          ],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 4,
++        "w": 24,
++        "x": 0,
++        "y": 16
++      },
++      "id": 12,
++      "options": {
++        "colorMode": "value",
++        "graphMode": "none",
++        "justifyMode": "center",
++        "orientation": "auto",
++        "reduceOptions": {
++          "calcs": [
++            "lastNotNull"
++          ],
++          "fields": "",
++          "values": false
++        },
++        "text": {
++          "titleSize": 0.1
++        },
++        "textMode": "value",
++        "wideLayout": true
++      },
++      "pluginVersion": "10.2.2",
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "mysql_slave_status_slave_sql_running",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "MySQL replica SQL thread",
++      "type": "stat"
++    },
++    {
++      "datasource": {
++        "type": "prometheus",
++        "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++      },
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "palette-classic"
++          },
++          "custom": {
++            "axisBorderShow": false,
++            "axisCenteredZero": false,
++            "axisColorMode": "text",
++            "axisLabel": "",
++            "axisPlacement": "auto",
++            "barAlignment": 0,
++            "drawStyle": "line",
++            "fillOpacity": 0,
++            "gradientMode": "none",
++            "hideFrom": {
++              "legend": false,
++              "tooltip": false,
++              "viz": false
++            },
++            "insertNulls": false,
++            "lineInterpolation": "linear",
++            "lineWidth": 2,
++            "pointSize": 1,
++            "scaleDistribution": {
++              "type": "linear"
++            },
++            "showPoints": "always",
++            "spanNulls": false,
++            "stacking": {
++              "group": "A",
++              "mode": "none"
++            },
++            "thresholdsStyle": {
++              "mode": "off"
++            }
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "green",
++                "value": null
++              },
++              {
++                "color": "red",
++                "value": 80
++              }
++            ]
++          }
++        },
++        "overrides": []
++      },
++      "gridPos": {
++        "h": 8,
++        "w": 24,
++        "x": 0,
++        "y": 20
++      },
++      "id": 4,
++      "options": {
++        "legend": {
++          "calcs": [],
++          "displayMode": "list",
++          "placement": "bottom",
++          "showLegend": true
++        },
++        "tooltip": {
++          "mode": "single",
++          "sort": "none"
++        }
++      },
++      "targets": [
++        {
++          "datasource": {
++            "type": "prometheus",
++            "uid": "e758c7e9-0e62-4a76-b1eb-93a6f9237888"
++          },
++          "editorMode": "code",
++          "expr": "rate(mysql_global_status_commands_total{command=\"select\"}[1m])",
++          "instant": false,
++          "legendFormat": "__auto",
++          "range": true,
++          "refId": "A"
++        }
++      ],
++      "title": "MySQL Select commands / minute",
++      "type": "timeseries"
++    }
++  ],
++  "refresh": "",
++  "schemaVersion": 38,
++  "tags": [],
++  "templating": {
++    "list": []
++  },
++  "time": {
++    "from": "now-30m",
++    "to": "now"
++  },
++  "timepicker": {},
++  "timezone": "",
++  "title": "MySQL",
++  "uid": "7z7XbL2nk",
++  "version": 4,
++  "weekStart": ""
++}
+
+changed: [vlmalo-3] => (item=mysql)
+--- before
++++ after: /home/vlmalo/ica0002/roles/grafana/files/syslog.json
+@@ -0,0 +1,1028 @@
++{
++  "annotations": {
++    "list": [
++      {
++        "builtIn": 1,
++        "datasource": {
++          "type": "datasource",
++          "uid": "grafana"
++        },
++        "enable": true,
++        "hide": true,
++        "iconColor": "rgba(0, 211, 255, 1)",
++        "name": "Annotations & Alerts",
++        "type": "dashboard"
++      }
++    ]
++  },
++  "description": "Telegraf / InfluxDB / Grafana as syslog receiver",
++  "editable": true,
++  "fiscalYearStartMonth": 0,
++  "gnetId": 12433,
++  "graphTooltip": 0,
++  "links": [],
++  "liveNow": false,
++  "panels": [
++    {
++      "aliasColors": {},
++      "bars": true,
++      "dashLength": 10,
++      "dashes": false,
++      "datasource": {
++        "type": "influxdb",
++        "uid": "PF877F614BFD14DDB"
++      },
++      "decimals": 0,
++      "fill": 1,
++      "fillGradient": 0,
++      "gridPos": {
++        "h": 7,
++        "w": 24,
++        "x": 0,
++        "y": 0
++      },
++      "hiddenSeries": false,
++      "id": 10,
++      "interval": "",
++      "legend": {
++        "alignAsTable": true,
++        "avg": true,
++        "current": false,
++        "max": true,
++        "min": false,
++        "rightSide": true,
++        "show": true,
++        "total": true,
++        "values": true
++      },
++      "lines": false,
++      "linewidth": 1,
++      "links": [],
++      "nullPointMode": "connected",
++      "options": {
++        "alertThreshold": true
++      },
++      "percentage": false,
++      "pluginVersion": "10.2.0",
++      "pointradius": 2,
++      "points": false,
++      "renderer": "flot",
++      "seriesOverrides": [
++        {
++          "alias": "Info",
++          "color": "rgb(80, 80, 80)",
++          "stack": "A"
++        },
++        {
++          "alias": "Notice",
++          "color": "rgb(182, 182, 182)",
++          "stack": "A"
++        },
++        {
++          "alias": "Warning",
++          "color": "#E0B400",
++          "stack": "A"
++        },
++        {
++          "alias": "Error",
++          "color": "#FF780A",
++          "stack": "A"
++        },
++        {
++          "alias": "Critical",
++          "color": "#E02F44",
++          "stack": "A"
++        },
++        {
++          "alias": "Alert",
++          "color": "#8F3BB8",
++          "stack": "A"
++        },
++        {
++          "alias": "Emergency",
++          "color": "#8F3BB8",
++          "stack": "A"
++        }
++      ],
++      "spaceLength": 10,
++      "stack": false,
++      "steppedLine": false,
++      "targets": [
++        {
++          "alias": "Info",
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "1m"
++              ],
++              "type": "time"
++            },
++            {
++              "params": [
++                "null"
++              ],
++              "type": "fill"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "A",
++          "resultFormat": "time_series",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              },
++              {
++                "params": [],
++                "type": "count"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "severity",
++              "operator": "=",
++              "value": "info"
++            },
++            {
++              "condition": "AND",
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        },
++        {
++          "alias": "Notice",
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "1m"
++              ],
++              "type": "time"
++            },
++            {
++              "params": [
++                "null"
++              ],
++              "type": "fill"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "B",
++          "resultFormat": "time_series",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              },
++              {
++                "params": [],
++                "type": "count"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "severity",
++              "operator": "=",
++              "value": "notice"
++            },
++            {
++              "condition": "AND",
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        },
++        {
++          "alias": "Warning",
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "1m"
++              ],
++              "type": "time"
++            },
++            {
++              "params": [
++                "null"
++              ],
++              "type": "fill"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "D",
++          "resultFormat": "time_series",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              },
++              {
++                "params": [],
++                "type": "count"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "severity",
++              "operator": "=",
++              "value": "warning"
++            },
++            {
++              "condition": "AND",
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        },
++        {
++          "alias": "Error",
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "1m"
++              ],
++              "type": "time"
++            },
++            {
++              "params": [
++                "null"
++              ],
++              "type": "fill"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "C",
++          "resultFormat": "time_series",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              },
++              {
++                "params": [],
++                "type": "count"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "severity",
++              "operator": "=",
++              "value": "err"
++            },
++            {
++              "condition": "AND",
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        },
++        {
++          "alias": "Critical",
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "1m"
++              ],
++              "type": "time"
++            },
++            {
++              "params": [
++                "null"
++              ],
++              "type": "fill"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "E",
++          "resultFormat": "time_series",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              },
++              {
++                "params": [],
++                "type": "count"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "severity",
++              "operator": "=",
++              "value": "crit"
++            },
++            {
++              "condition": "AND",
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        },
++        {
++          "alias": "Alert",
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "1m"
++              ],
++              "type": "time"
++            },
++            {
++              "params": [
++                "null"
++              ],
++              "type": "fill"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "F",
++          "resultFormat": "time_series",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              },
++              {
++                "params": [],
++                "type": "count"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "severity",
++              "operator": "=",
++              "value": "alert"
++            },
++            {
++              "condition": "AND",
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        },
++        {
++          "alias": "Emergency",
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "1m"
++              ],
++              "type": "time"
++            },
++            {
++              "params": [
++                "null"
++              ],
++              "type": "fill"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "G",
++          "resultFormat": "time_series",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              },
++              {
++                "params": [],
++                "type": "count"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "severity",
++              "operator": "=",
++              "value": "emerg"
++            },
++            {
++              "condition": "AND",
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        }
++      ],
++      "thresholds": [],
++      "timeRegions": [],
++      "title": "syslog count",
++      "tooltip": {
++        "shared": true,
++        "sort": 0,
++        "value_type": "individual"
++      },
++      "type": "graph",
++      "xaxis": {
++        "mode": "time",
++        "show": true,
++        "values": []
++      },
++      "yaxes": [
++        {
++          "decimals": 0,
++          "format": "none",
++          "label": "Messages / min",
++          "logBase": 1,
++          "show": true
++        },
++        {
++          "format": "short",
++          "logBase": 1,
++          "show": false
++        }
++      ],
++      "yaxis": {
++        "align": false
++      }
++    },
++    {
++      "datasource": {
++        "type": "influxdb",
++        "uid": "PF877F614BFD14DDB"
++      },
++      "description": "",
++      "fieldConfig": {
++        "defaults": {
++          "color": {
++            "mode": "thresholds"
++          },
++          "custom": {
++            "align": "left",
++            "cellOptions": {
++              "type": "auto"
++            },
++            "filterable": false,
++            "inspect": false
++          },
++          "mappings": [],
++          "thresholds": {
++            "mode": "absolute",
++            "steps": [
++              {
++                "color": "dark-purple",
++                "value": null
++              },
++              {
++                "color": "dark-red",
++                "value": 2
++              },
++              {
++                "color": "dark-orange",
++                "value": 3
++              },
++              {
++                "color": "dark-yellow",
++                "value": 4
++              },
++              {
++                "color": "rgb(150, 150, 150)",
++                "value": 5
++              },
++              {
++                "color": "rgb(51, 51, 51)",
++                "value": 6
++              },
++              {
++                "color": "rgb(5, 5, 5)",
++                "value": 7
++              }
++            ]
++          }
++        },
++        "overrides": [
++          {
++            "matcher": {
++              "id": "byName",
++              "options": "severity_code"
++            },
++            "properties": [
++              {
++                "id": "mappings",
++                "value": [
++                  {
++                    "options": {
++                      "0": {
++                        "text": "Emergency"
++                      },
++                      "1": {
++                        "text": "Alert"
++                      },
++                      "2": {
++                        "text": "Critical"
++                      },
++                      "3": {
++                        "text": "Error"
++                      },
++                      "4": {
++                        "text": "Warning"
++                      },
++                      "5": {
++                        "text": "Notice"
++                      },
++                      "6": {
++                        "text": "Info"
++                      },
++                      "7": {
++                        "text": "Debug"
++                      }
++                    },
++                    "type": "value"
++                  }
++                ]
++              },
++              {
++                "id": "custom.cellOptions",
++                "value": {
++                  "mode": "gradient",
++                  "type": "color-background"
++                }
++              },
++              {
++                "id": "custom.width",
++                "value": 119
++              }
++            ]
++          },
++          {
++            "matcher": {
++              "id": "byName",
++              "options": "Time"
++            },
++            "properties": [
++              {
++                "id": "custom.width",
++                "value": 163
++              }
++            ]
++          },
++          {
++            "matcher": {
++              "id": "byName",
++              "options": "hostname"
++            },
++            "properties": [
++              {
++                "id": "custom.width",
++                "value": 194
++              }
++            ]
++          },
++          {
++            "matcher": {
++              "id": "byName",
++              "options": "appname"
++            },
++            "properties": [
++              {
++                "id": "custom.width",
++                "value": 264
++              }
++            ]
++          }
++        ]
++      },
++      "gridPos": {
++        "h": 24,
++        "w": 24,
++        "x": 0,
++        "y": 7
++      },
++      "id": 12,
++      "options": {
++        "cellHeight": "sm",
++        "footer": {
++          "countRows": false,
++          "fields": "",
++          "reducer": [
++            "sum"
++          ],
++          "show": false
++        },
++        "showHeader": true,
++        "sortBy": [
++          {
++            "desc": true,
++            "displayName": "Time"
++          }
++        ]
++      },
++      "pluginVersion": "10.2.0",
++      "targets": [
++        {
++          "datasource": {
++            "type": "influxdb",
++            "uid": "PF877F614BFD14DDB"
++          },
++          "groupBy": [
++            {
++              "params": [
++                "hostname"
++              ],
++              "type": "tag"
++            },
++            {
++              "params": [
++                "appname"
++              ],
++              "type": "tag"
++            }
++          ],
++          "measurement": "syslog",
++          "orderByTime": "ASC",
++          "policy": "default",
++          "refId": "A",
++          "resultFormat": "table",
++          "select": [
++            [
++              {
++                "params": [
++                  "severity_code"
++                ],
++                "type": "field"
++              }
++            ],
++            [
++              {
++                "params": [
++                  "message"
++                ],
++                "type": "field"
++              }
++            ]
++          ],
++          "tags": [
++            {
++              "key": "hostname",
++              "operator": "=~",
++              "value": "/^$hostname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "appname",
++              "operator": "=~",
++              "value": "/^$appname$/"
++            },
++            {
++              "condition": "AND",
++              "key": "severity",
++              "operator": "=~",
++              "value": "/^$severity$/"
++            },
++            {
++              "condition": "AND",
++              "key": "message",
++              "operator": "=~",
++              "value": "/$Query/"
++            }
++          ]
++        }
++      ],
++      "title": "Syslog Messages",
++      "type": "table"
++    }
++  ],
++  "refresh": "5s",
++  "schemaVersion": 38,
++  "tags": [],
++  "templating": {
++    "list": [
++      {
++        "allValue": "",
++        "current": {
++          "selected": false,
++          "text": "All",
++          "value": "$__all"
++        },
++        "datasource": {
++          "type": "influxdb",
++          "uid": "PF877F614BFD14DDB"
++        },
++        "definition": "SHOW TAG VALUES FROM syslog WITH KEY=appname",
++        "hide": 0,
++        "includeAll": true,
++        "label": "Appname",
++        "multi": true,
++        "name": "appname",
++        "options": [],
++        "query": "SHOW TAG VALUES FROM syslog WITH KEY=appname",
++        "refresh": 2,
++        "regex": "",
++        "skipUrlSync": false,
++        "sort": 1,
++        "tagValuesQuery": "",
++        "tagsQuery": "",
++        "type": "query",
++        "useTags": false
++      },
++      {
++        "allValue": "",
++        "current": {
++          "selected": false,
++          "text": "All",
++          "value": "$__all"
++        },
++        "datasource": {
++          "type": "influxdb",
++          "uid": "PF877F614BFD14DDB"
++        },
++        "definition": "SHOW TAG VALUES FROM syslog WITH KEY=hostname",
++        "hide": 0,
++        "includeAll": true,
++        "label": "Hostname",
++        "multi": true,
++        "name": "hostname",
++        "options": [],
++        "query": "SHOW TAG VALUES FROM syslog WITH KEY=hostname",
++        "refresh": 2,
++        "regex": "",
++        "skipUrlSync": false,
++        "sort": 1,
++        "tagValuesQuery": "",
++        "tagsQuery": "",
++        "type": "query",
++        "useTags": false
++      },
++      {
++        "allValue": "",
++        "current": {
++          "selected": false,
++          "text": "All",
++          "value": "$__all"
++        },
++        "datasource": {
++          "type": "influxdb",
++          "uid": "PF877F614BFD14DDB"
++        },
++        "definition": "SHOW TAG VALUES FROM syslog WITH KEY=severity",
++        "hide": 0,
++        "includeAll": true,
++        "label": "Severity",
++        "multi": true,
++        "name": "severity",
++        "options": [],
++        "query": "SHOW TAG VALUES FROM syslog WITH KEY=severity",
++        "refresh": 2,
++        "regex": "",
++        "skipUrlSync": false,
++        "sort": 0,
++        "tagValuesQuery": "",
++        "tagsQuery": "",
++        "type": "query",
++        "useTags": false
++      },
++      {
++        "current": {
++          "selected": false,
++          "text": "",
++          "value": ""
++        },
++        "description": "Querystring",
++        "hide": 0,
++        "label": "MessageQuery",
++        "name": "Query",
++        "options": [
++          {
++            "selected": true,
++            "text": "",
++            "value": ""
++          }
++        ],
++        "query": "",
++        "skipUrlSync": false,
++        "type": "textbox"
++      }
++    ]
++  },
++  "time": {
++    "from": "now-1h",
++    "to": "now"
++  },
++  "timepicker": {
++    "refresh_intervals": [
++      "5s",
++      " 10s",
++      " 30s",
++      " 1m",
++      " 5m"
++    ],
++    "time_options": [
++      "5m",
++      "15m",
++      "1h",
++      "6h",
++      "12h",
++      "24h",
++      "2d",
++      "7d",
++      "30d"
++    ]
++  },
++  "timezone": "",
++  "title": "Syslog",
++  "uid": "TIYeHqRgZ",
++  "version": 1,
++  "weekStart": ""
++}
+
+changed: [vlmalo-3] => (item=syslog)
+
+TASK [grafana : add cname records] *********************************************
+changed: [vlmalo-3] => (item=vlmalo-3)
+
+RUNNING HANDLER [grafana : Restart grafana container] **************************
+--- before
++++ after
+@@ -1,4 +1,4 @@
+ {
+-    "restarted": false,
++    "restarted": true,
+     "running": true
+ }
+
+changed: [vlmalo-3]
+
+PLAY [Influxdb] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vlmalo-3]
+
+TASK [influxdb : Download InfluxDB package] ************************************
+changed: [vlmalo-3]
+
+TASK [influxdb : Install InfluxDB package] *************************************
+Selecting previously unselected package influxdb.
+(Reading database ... 66377 files and directories currently installed.)
+Preparing to unpack /tmp/influxdb_1.8.10_amd64.deb ...
+Unpacking influxdb (1.8.10-1) ...
+Setting up influxdb (1.8.10-1) ...
+Processing triggers for man-db (2.9.1-1) ...
+changed: [vlmalo-3]
+
+TASK [influxdb : Add InfluxDB APT repository key] ******************************
+changed: [vlmalo-3]
+
+TASK [influxdb : Add InfluxDB APT repository] **********************************
+--- before: /dev/null
++++ after: /etc/apt/sources.list.d/repos_influxdata_com_debian.list
+@@ -0,0 +1 @@
++deb https://repos.influxdata.com/debian stable main
+
+changed: [vlmalo-3]
+
+TASK [influxdb : install telegraf] *********************************************
+The following NEW packages will be installed:
+  telegraf
+0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
+changed: [vlmalo-3]
+
+TASK [influxdb : copy telegraf.conf] *******************************************
+diff skipped: destination file size is greater than 104448
+changed: [vlmalo-3]
+
+TASK [influxdb : start telegraf] ***********************************************
+fatal: [vlmalo-3]: FAILED! => {"changed": false, "msg": "Unable to start service telegraf: Job for telegraf.service failed because the control process exited with error code.\nSee \"systemctl status telegraf.service\" and \"journalctl -xe\" for details.\n"}
+
+RUNNING HANDLER [influxdb : Restart telegraf] **********************************
+
+PLAY RECAP *********************************************************************
+vlmalo-1                   : ok=59   changed=46   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
+vlmalo-2                   : ok=50   changed=41   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
+vlmalo-3                   : ok=66   changed=52   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+

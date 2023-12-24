@@ -8,13 +8,12 @@
     published_ports: "{{ grafana_port }}:3000"
     volumes:
       - /opt/grafana:/etc/grafana
+    restart_policy: always
 
 - name: Create Grafana directories
   file:
     name: "/opt/grafana/provisioning/{{ item }}"
     state: directory
-    recurse: yes
-    mode: "0755"
   loop:
     - dashboards
     - datasources
@@ -24,6 +23,7 @@
     src: grafana.ini.j2
     dest: /opt/grafana/grafana.ini
   no_log: true
+  notify: Restart grafana container
 
 - name: Add datasource file
   template:
@@ -33,11 +33,13 @@
     - main_datasource.yaml
     - main_datasourceInfluxDB.yaml
     - main_datasourceTelegraf.yaml
+  notify: Restart grafana container
 
 - name: add dashboard file conf
   template:
     src: templates/main_dashboard.yaml.j2
     dest: /opt/grafana/provisioning/dashboards/sample.yaml
+  notify: Restart grafana container
 
 - name: Copy dashboard json
   copy:

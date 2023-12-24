@@ -10,7 +10,6 @@
     dest: /etc/haproxy/haproxy.cfg
   notify: restart haproxy
 
-
 - name: Enable haproxy
   service:
     name: haproxy

@@ -14,14 +14,14 @@ server {
         }
 {% endif %}
 
+
+{% if inventory_hostname in groups['prometheus'] %}
         location /prometheus {
 	proxy_pass http://localhost:9090;
         }
-
+{% endif %}
 }
-
-
-                                            
+     
 server {
         listen 8080 default_server;
 
@@ -30,4 +30,3 @@ server {
 	}
 
 }
-

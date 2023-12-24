@@ -1,35 +1,41 @@
 ---
 - name: Initial setup
+  become: yes
   hosts: all
   roles:
     - init
   tags: init
 
 - name: DNS
+  become: yes
   hosts: dns_servers
   roles:
     - bind
   tags: b
 
 - name: resolv
+  become: yes
   hosts: all
   roles:
     - resolv
   tags: r
 
 - name: prometheus
+  become: yes
   hosts: prometheus
   roles:
     - prometheus
   tags: p
 
 - name: Database server
+  become: yes
   hosts: db_servers
   roles:
     - mysql
   tags: m
 
 - name: Docker
+  become: yes
   hosts: docker
   roles:
     - docker
@@ -37,18 +43,20 @@
   tags: docker
 
 - hosts: web_servers
-  become_user: root
+  become: yes
   roles:
     - nginx
-  tags: agama
+  tags: nginx
 
 - name: Grafana
+  become: yes
   hosts: grafana
   roles:
     - grafana
   tags: g
 
 - name: Influxdb
+  become: yes
   hosts: influxdb
   roles:
     - influxdb
@@ -57,6 +65,7 @@
   tags: i
 
 - name: Keepalived
+  become: yes
   hosts: keepalived
   roles:
     - keepalived

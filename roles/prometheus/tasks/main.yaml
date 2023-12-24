@@ -3,12 +3,6 @@
   apt:
     name:
       - prometheus
-    state: present
-
-- name: start prometheus service
-  service:
-    name: prometheus
-    state: started
 
 - name: copy static config
   template:
@@ -21,6 +15,11 @@
     src: prometheus.j2
     dest: /etc/default/prometheus
   notify: restart prometheus
+
+- name: start prometheus service
+  service:
+    name: prometheus
+    state: started
 
 - name: add cname records
   nsupdate:

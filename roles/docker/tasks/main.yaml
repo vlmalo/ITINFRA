@@ -5,3 +5,9 @@
 - name: Install pyhon3-docker
   apt:
     name: python3-docker
+
+- name: Start docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
