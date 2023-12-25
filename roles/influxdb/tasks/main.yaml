@@ -6,7 +6,7 @@
 
 - name: Install InfluxDB package
   apt:
-    deb: /tmp/influxdb_1.8.10_amd64.deb
+    deb: /usr/local/bin/influxdb_1.8.10_amd64.deb
 
 - name: Add InfluxDB APT repository key
   apt_key:
