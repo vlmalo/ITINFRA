@@ -48,7 +48,7 @@
     - bind9
     - prometheus-bind-exporter
 
-- name: record
+- name: Update DNS record for backup
   nsupdate:
     key_name: "update_key"
     key_algorithm: "hmac-sha256"

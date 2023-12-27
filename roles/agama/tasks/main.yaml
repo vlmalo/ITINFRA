@@ -12,14 +12,14 @@
     - agama.py
     - Dockerfile
 
-- name: Build the image
+- name: Build the image named "agama"
   docker_image:
     name: agama
     source: build
     build:
       path: /opt/agama
 
-- name: Agama two containers
+- name: Create agama containers from the "agama" image
   docker_container:
     name: "agama_{{ item }}"
     image: agama
