@@ -80,4 +80,4 @@
 - name: Install duplicity
   apt:
     name: duplicity
-    state: present
+    state: latest

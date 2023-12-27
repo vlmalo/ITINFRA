@@ -6,7 +6,7 @@
 
 - `sudo -u backup duplicity --no-encryption restore rsync://vlmalo@backup.talkmate.it/mysql /home/backup/restore/mysql`
 - `sudo su`
-- `mysql agama < /home/backup/mysql/agama.sql`
+- `mysql agama < /home/backup/restore/mysql/agama.sql`
 
 ## Restore telegraf
 

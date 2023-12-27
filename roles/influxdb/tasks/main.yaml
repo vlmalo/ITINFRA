@@ -1,4 +1,13 @@
 ---
+- name: Add InfluxDB APT repository key
+  apt_key:
+    url: https://repos.influxdata.com/influxdata-archive_compat.key
+
+- name: Add InfluxDB APT repository
+  apt_repository:
+    repo: deb https://repos.influxdata.com/debian stable main
+    update_cache: yes
+
 - name: Download InfluxDB package
   get_url:
     url: https://dl.influxdata.com/influxdb/releases/influxdb_1.8.10_amd64.deb
@@ -7,14 +16,7 @@
 - name: Install InfluxDB package
   apt:
     deb: /usr/local/bin/influxdb_1.8.10_amd64.deb
-
-- name: Add InfluxDB APT repository key
-  apt_key:
-    url: https://repos.influxdata.com/influxdata-archive_compat.key
-
-- name: Add InfluxDB APT repository
-  apt_repository:
-    repo: deb https://repos.influxdata.com/debian stable main
+    update_cache: yes
 
 - name: install telegraf
   apt:
@@ -48,8 +50,7 @@
     path: /home/backup/influxdb
     state: directory
     owner: backup
-    group: backup
-    mode: '0755'
+    mode: '0700'
 
 - name: influxdb backup
   template:

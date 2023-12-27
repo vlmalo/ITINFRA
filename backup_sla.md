@@ -8,15 +8,15 @@
 ### RPO (Recovery Point Objective)
 
 ## MySQL
-- Full backups are done at 22:45 UTC
+- Full backups are done at 22:45 UTC on Sundays
 - Incremental backups are done at 22:45 UTC on every day-of-week from Monday through Saturday
 
 ## InfluxDB
-- Full backups are done at 22:45 UTC
+- Full backups are done at 22:45 UTC on Sundays
 - Incremental backups are done at 22:45 UTC on every day-of-week from Monday through Saturday
 
 ### Versioning and Retention
-- Full backups contain all data from services that are backed up. (done daily)
+- Full backups contain all data from services that are backed up. (done once a week)
 - Incremental backups retain difference from the last created backups.
 - Retention period: 4 weeks.
 - Only 28 versions of backups can be stored at the same time.
