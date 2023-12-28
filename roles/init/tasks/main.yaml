@@ -81,3 +81,9 @@
   apt:
     name: duplicity
     state: latest
+
+- name: Enable prometheus-node-exporter
+  service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: yes

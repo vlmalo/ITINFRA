@@ -31,7 +31,7 @@
   systemd:
     name: mysql
     state: started
-    enabled: true
+    enabled: yes
 
 - name: Copy MySQL conf
   template:
@@ -125,3 +125,9 @@
     value: "{{ inventory_hostname }}"
     type: "CNAME"
   with_items: "{{ groups['dns_master'] }}"
+
+- name: Enable prometheus-mysqld-exporter
+  service:
+    name: prometheus-mysqld-exporter
+    state: started
+    enabled: yes
