@@ -20,7 +20,7 @@
 - Incremental backups retain difference from the last created backups.
 - Retention period: 4 weeks.
 - Only 28 versions of backups can be stored at the same time.
-- Backups that are older than 29 days are deleted.
+- Backups that are older than 28 days are deleted.
 
 ### Restoration Criteria
 - Backup should be restored in case of:
