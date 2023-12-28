@@ -26,8 +26,9 @@ scrape_configs:
   - job_name: 'nginx'
     static_configs:
       - targets:
-          - www-1:9113
-          - www-2:9113
+          {% for vm in groups['web_servers'] %}
+          - {{ vm }}:9113
+          {% endfor %}
 
   - job_name: 'mysql'
     static_configs:

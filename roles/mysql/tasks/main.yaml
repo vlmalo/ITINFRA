@@ -27,17 +27,17 @@
     name: python3-pymysql
     state: present
 
-- name: Ensure that MySQL service is started
-  systemd:
-    name: mysql
-    state: started
-    enabled: yes
-
 - name: Copy MySQL conf
   template:
     src: override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: Restart MySQL Service
+
+- name: Ensure that MySQL service is started
+  systemd:
+    name: mysql
+    state: started
+    enabled: yes
 
 - name: MySQL database
   mysql_db:

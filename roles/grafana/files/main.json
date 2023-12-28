@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 4,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -940,7 +941,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "haproxy_server_up{instance=\"vlmalo-1:9101\"}",
+          "expr": "haproxy_server_up{instance=\"lb-1:9101\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -1016,7 +1017,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "haproxy_server_up{instance=\"vlmalo-2:9101\"}",
+          "expr": "haproxy_server_up{instance=\"lb-2:9101\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -1208,7 +1209,7 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-1m",
     "to": "now"
   },
   "timepicker": {},
