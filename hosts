@@ -1,6 +1,6 @@
-vlmalo-1 ansible_host=193.40.156.67 ansible_port=18222 ansible_user=ubuntu
-vlmalo-2 ansible_host=193.40.156.67 ansible_port=7222 ansible_user=ubuntu 
-vlmalo-3 ansible_host=193.40.156.67 ansible_port=5322 ansible_user=ubuntu
+vlmalo-1 ansible_host=193.40.156.67 ansible_port=2622 ansible_user=ubuntu
+vlmalo-2 ansible_host=193.40.156.67 ansible_port=12422 ansible_user=ubuntu 
+vlmalo-3 ansible_host=193.40.156.67 ansible_port=19522 ansible_user=ubuntu
 
 [dns_master]
 vlmalo-3
