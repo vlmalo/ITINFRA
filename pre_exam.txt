@@ -1,5 +1,5 @@
 N 28 dets  2023 13:13:01 EET
-+ hostname
++ hostname 
 vlmalo-VirtualBox
 + ansible-playbook infra.yaml --diff
 
